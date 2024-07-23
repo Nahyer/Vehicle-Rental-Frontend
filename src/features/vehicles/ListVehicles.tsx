@@ -65,7 +65,7 @@ const ListVehicles = () => {
 						return 0;
 				}
 			});
-		}, [search, filters, sort]);
+		}, [dBvehicles,search, filters, sort]);
 
 
 		if (isLoading) return <div>Loading...</div>;

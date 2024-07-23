@@ -57,7 +57,7 @@ const Nav = () => {
 					>
 						Explore
 					</NavLink>
-					<a href='#' className='text-lg text-slate-950 hover:text-primary'>
+					<a href='about' className='text-lg text-slate-950 hover:text-primary'>
 						About
 					</a>
 					<a href='#' className='text-lg text-slate-950 hover:text-primary'>

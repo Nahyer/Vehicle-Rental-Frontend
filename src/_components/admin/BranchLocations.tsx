@@ -5,87 +5,40 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { useAddLocationMutation, useGetLocationsQuery } from "@/features/locationsAndBranches/locBrancesAPI"
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
+
+const BLSchema=yup.object().shape({
+  name: yup.string().required("Name is required"),
+  contact_phone: yup.string().required("Contact number is required"),
+  address: yup.string().required("Address is required")
+})
 
 
 const BranchLocations = () => {
+  const {register, handleSubmit, formState:{errors}} = useForm<yup.InferType<typeof BLSchema>>({
+    resolver: yupResolver(BLSchema)
+  })
+  const {data:tbranches,isLoading} = useGetLocationsQuery()
+  const [addLocation] = useAddLocationMutation()
   const [search, setSearch] = useState("")
   const [sort, setSort] = useState({ key: "name", order: "asc" })
   const [page] = useState(1)
-  const [branches, setBranches] = useState([
-    {
-      id: 1,
-      name: "Downtown Branch",
-      address: "123 Main St",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94102",
-    },
-    {
-      id: 2,
-      name: "Airport Branch",
-      address: "456 Airport Rd",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-    },
-    {
-      id: 3,
-      name: "Suburban Branch",
-      address: "789 Oak Ln",
-      city: "Chicago",
-      state: "IL",
-      zip: "60601",
-    },
-    {
-      id: 4,
-      name: "Coastal Branch",
-      address: "321 Beach Blvd",
-      city: "Miami",
-      state: "FL",
-      zip: "33101",
-    },
-    {
-      id: 5,
-      name: "Mountain Branch",
-      address: "159 Ski Rd",
-      city: "Denver",
-      state: "CO",
-      zip: "80201",
-    },
-    {
-      id: 6,
-      name: "Suburban Branch 2",
-      address: "753 Maple Ave",
-      city: "Houston",
-      state: "TX",
-      zip: "77001",
-    },
-    {
-      id: 7,
-      name: "Coastal Branch 2",
-      address: "951 Ocean Dr",
-      city: "Seattle",
-      state: "WA",
-      zip: "98101",
-    },
-    {
-      id: 8,
-      name: "Mountain Branch 2",
-      address: "357 Slope Rd",
-      city: "Salt Lake City",
-      state: "UT",
-      zip: "84101",
-    },
-  ])
+ 
   const filteredBranches = useMemo(() => {
-    return branches
+    if (!tbranches) {
+      return [];
+    }
+    return tbranches
       .filter(
         (branch) =>
+          (branch.location_id.toString().toLowerCase().includes(search.toLowerCase())) ||
           branch.name.toLowerCase().includes(search.toLowerCase()) ||
-          branch.address.toLowerCase().includes(search.toLowerCase()) ||
-          branch.city.toLowerCase().includes(search.toLowerCase()) ||
-          branch.state.toLowerCase().includes(search.toLowerCase()) ||
-          branch.zip.toLowerCase().includes(search.toLowerCase()),
+          branch.contact_phone.toLowerCase().includes(search.toLowerCase()) ||
+          branch.address.toLowerCase().includes(search.toLowerCase())
       )
       .sort((a:any, b:any) => {
         if (sort.order === "asc") {
@@ -94,28 +47,19 @@ const BranchLocations = () => {
           return a[sort.key] < b[sort.key] ? 1 : -1
         }
       })
-  }, [branches, search, sort])
-  const [newBranch, setNewBranch] = useState({
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-  })
+  }, [tbranches, search, sort])
+
   
-  const handleNewBranchChange = (field: string, value: string) => {
-    setNewBranch({ ...newBranch, [field]: value })
-  }
-  const handleAddBranch = () => {
-    const newId = branches.length + 1
-    setBranches([...branches, { id: newId, ...newBranch }])
-    setNewBranch({
-      name: "",
-      address: "",
-      city: "",
-      state: "",
-      zip: "",
-    })
+  const handleAddBranch =async (data:yup.InferType<typeof BLSchema>) => {
+   console.log(data)
+   try {
+      const res = await addLocation(data)
+      console.log(res)
+    
+   } catch (error) {
+    
+   }
+   
   }
   const itemsPerPage = 10
   // const totalPages = Math.ceil(filteredBranches.length / itemsPerPage)
@@ -138,61 +82,51 @@ const BranchLocations = () => {
               <TableHead
                 className="cursor-pointer"
                 onClick={() =>
-                  setSort({ key: "name", order: sort.key === "name" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
+                  setSort({ key: "location_id", order: sort.key === "location_id" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
                 }
               >
-                Name {sort.key === "name" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
+                ID# {sort.key === "location_id" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
               </TableHead>
               <TableHead
                 className="cursor-pointer"
                 onClick={() =>
                   setSort({
-                    key: "address",
-                    order: sort.key === "address" ? (sort.order === "asc" ? "desc" : "asc") : "asc",
+                    key: "name",
+                    order: sort.key === "name" ? (sort.order === "asc" ? "desc" : "asc") : "asc",
                   })
                 }
               >
-                Address{" "}
-                {sort.key === "address" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
+                Name{" "}
+                {sort.key === "name" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
               </TableHead>
               <TableHead
                 className="cursor-pointer"
                 onClick={() =>
-                  setSort({ key: "city", order: sort.key === "city" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
+                  setSort({ key: "contact_phone", order: sort.key === "contact_phone" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
                 }
               >
-                City {sort.key === "city" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
+                City {sort.key === "contact_phone" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
               </TableHead>
+              
               <TableHead
                 className="cursor-pointer"
                 onClick={() =>
-                  setSort({
-                    key: "state",
-                    order: sort.key === "state" ? (sort.order === "asc" ? "desc" : "asc") : "asc",
-                  })
+                  setSort({ key: "address", order: sort.key === "address" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
                 }
               >
-                State{" "}
-                {sort.key === "state" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer"
-                onClick={() =>
-                  setSort({ key: "zip", order: sort.key === "zip" ? (sort.order === "asc" ? "desc" : "asc") : "asc" })
-                }
-              >
-                Zip {sort.key === "zip" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
+                Adress {sort.key === "address" && <span className="ml-1">{sort.order === "asc" ? "\u2191" : "\u2193"}</span>}
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentItems.map((branch) => (
-              <TableRow key={branch.id}>
+            {isLoading ? <TableRow ><TableCell  colSpan={4}>Loading...</TableCell></TableRow> :
+            
+            currentItems.map((branch) => (
+              <TableRow key={branch.location_id}>
+                <TableCell>{branch.location_id}</TableCell>
                 <TableCell>{branch.name}</TableCell>
+                <TableCell>{branch.contact_phone}</TableCell>
                 <TableCell>{branch.address}</TableCell>
-                <TableCell>{branch.city}</TableCell>
-                <TableCell>{branch.state}</TableCell>
-                <TableCell>{branch.zip}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -204,39 +138,29 @@ const BranchLocations = () => {
           <CardHeader>
             <CardTitle>Add New Branch</CardTitle>
           </CardHeader>
+            <form onSubmit={handleSubmit(handleAddBranch)}>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" value={newBranch.name} onChange={(e) => handleNewBranchChange("name", e.target.value)} />
+              <Input id="name" {...register("name")} />
+              {errors.name && errors.name.message}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="contact_phone">Contact Phone</Label>
+              <Input id="contact_phone" {...register("contact_phone")} />
+              {errors.contact_phone && errors.contact_phone.message}
+                
             </div>
             <div className="grid gap-2">
               <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                value={newBranch.address}
-                onChange={(e) => handleNewBranchChange("address", e.target.value)}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="city">City</Label>
-              <Input id="city" value={newBranch.city} onChange={(e) => handleNewBranchChange("city", e.target.value)} />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="state">State</Label>
-              <Input
-                id="state"
-                value={newBranch.state}
-                onChange={(e) => handleNewBranchChange("state", e.target.value)}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="zip">Zip</Label>
-              <Input id="zip" value={newBranch.zip} onChange={(e) => handleNewBranchChange("zip", e.target.value)} />
+              <Input id="address" {...register("address")} />
+              {errors.address && errors.address.message}
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={handleAddBranch}>Add Branch</Button>
+            <Button type="submit" >Add Branch</Button>
           </CardFooter>
+           </form>  
         </Card>
       </div>
     </div>

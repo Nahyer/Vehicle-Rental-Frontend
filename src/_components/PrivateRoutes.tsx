@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom"
 const PrivateRoutes = ({children}:any) => {
   const{user:authuser} = useSelector((x: RootState) => x.session)
   if (!authuser){
-    return <Navigate to="/login"  />
+    return <Navigate to="/"  />
   }
 
   return children

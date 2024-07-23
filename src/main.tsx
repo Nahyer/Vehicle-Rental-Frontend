@@ -31,6 +31,7 @@ import ManageUsers from './_components/admin/ManageUsers.tsx'
 import BranchLocations from './_components/admin/BranchLocations.tsx'
 import ManageTickets from './_components/admin/ManageTickets.tsx'
 import Layout from './app/Lyout.tsx'
+import AboutUs from './_components/AboutUs.tsx'
 
 
 
@@ -84,7 +85,12 @@ const router = createBrowserRouter([
               path:'vehicles/booking/:vehicleId',
               element:<PrivateRoutes><Bookings/></PrivateRoutes>,
               errorElement: <ErrorPage />
-            }
+            },
+            {
+              path: 'about',
+              element: <AboutUs />,
+              errorElement: <ErrorPage />
+          }
          
            
             
@@ -189,6 +195,7 @@ const router = createBrowserRouter([
         ],
         errorElement: <ErrorPage />
       }
+      
     ]
   },
 

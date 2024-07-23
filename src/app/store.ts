@@ -20,6 +20,7 @@ import { bookingsApi } from "../features/bookings/bookingsApi";
 import { paymentApi } from "../features/payments/paymentApi";
 import { vehicleSpecsApi } from "@/_components/api/vehicleSpecsApi";
 import { customerSupportTicketsApi } from "@/_components/api/customer_support_ticketsApi";
+import { usersApi } from "@/_components/api/users";
 
 const persistConfig = {
     key: 'root',
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
     [bookingsApi.reducerPath]: bookingsApi.reducer,
     [paymentApi.reducerPath]: paymentApi.reducer,
     [vehicleSpecsApi.reducerPath]: vehicleSpecsApi.reducer,
-    [customerSupportTicketsApi.reducerPath]: customerSupportTicketsApi.reducer
+    [customerSupportTicketsApi.reducerPath]: customerSupportTicketsApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer
    
   })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -54,6 +56,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
     .concat(vehicleApi.middleware).concat(locBranchesApi.middleware)
     .concat(bookingsApi.middleware).concat(paymentApi.middleware)
     .concat(vehicleSpecsApi.middleware).concat(customerSupportTicketsApi.middleware)
+    .concat(usersApi.middleware)
  });
 
 export const persistor = persistStore(store);

@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
-import { Link } from "react-router-dom"
+
 import EditProfile from "./EditProfile"
 
 const Profile = () => {
 const {user} =useSelector((u:RootState)=>u.session)
 if(!user) return <div>please login to view your profile</div>
-const {user_id,full_name, email, contact_phone}=user
+const {full_name, email, contact_phone}=user
 console.log(user)
 
 return (
@@ -18,7 +18,7 @@ return (
 
 		<button
 			className='btn'
-			onClick={() => document.getElementById("my_modal_5").showModal()}
+			onClick={() => (document.getElementById("my_modal_5") as HTMLDialogElement)?.showModal()}
 		>
 			open modal
 		</button>

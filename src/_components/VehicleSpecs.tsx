@@ -1,20 +1,21 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { TVehicle, useGetVehicleByIdQuery } from "../features/vehicles/vehicleApi"
+import { Link, useParams } from "react-router-dom"
+import { vehicleApi } from "../features/vehicles/vehicleApi"
+// import { TVehicle, useGetVehicleByIdQuery } from "../features/vehicles/vehicleApi"
 
 
 const VehicleSpecs = () => {
     const { vehicleId } = useParams()
-    const {data:vehicle, error, isLoading} =useGetVehicleByIdQuery(Number(vehicleId))
-     const navigation = useNavigate()
+    const {data:vehicle, error, isLoading} =vehicleApi.useGetVehicleByIdQuery(Number(vehicleId))
+    //  const navigation = useNavigate()
     if(!vehicle) return null
     const vehicleSpecs = vehicle.vehicleSpecs
     
     if(isLoading) return <div>Loading...</div>
     if(error) return <div>Error</div>
-    const handleBooking = () => {
-        console.log('Booked')
-        navigation(`/bookings/${vehicleId}`)
-    }
+    // const handleBooking = () => {
+    //     console.log('Booked')
+    //     navigation(`/vehicles/booking/${vehicleId}`)
+    // }
 return (
     <div>
         <h2 className="text-2xl font-bold mb-4">Car Specs</h2>
@@ -31,7 +32,8 @@ return (
                 <p className="mb-2">Seating Capacity: {vehicleSpecs.seating_capacity}</p>
                 <p className="mb-2">Color: {vehicleSpecs.color}</p>
                 <p className="mb-2">Features: {vehicleSpecs.features}</p>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleBooking}>Book Now</button>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded" >
+                    <Link to={`/vehicles/booking/${vehicleId}`}>Book Now</Link></button>
             </div>
         </div>
     </div>

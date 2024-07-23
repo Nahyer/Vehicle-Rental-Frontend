@@ -18,11 +18,14 @@ import { vehicleApi } from "../features/vehicles/vehicleApi";
 import { locBranchesApi } from "../features/locationsAndBranches/locBrancesAPI";
 import { bookingsApi } from "../features/bookings/bookingsApi";
 import { paymentApi } from "../features/payments/paymentApi";
+import { vehicleSpecsApi } from "@/_components/api/vehicleSpecsApi";
+import { customerSupportTicketsApi } from "@/_components/api/customer_support_ticketsApi";
 
 const persistConfig = {
     key: 'root',
     version: 1,
-    storage
+    storage,
+    whitelist: ['session']
   }
 
 const rootReducer = combineReducers({
@@ -32,7 +35,10 @@ const rootReducer = combineReducers({
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [locBranchesApi.reducerPath]: locBranchesApi.reducer,
     [bookingsApi.reducerPath]: bookingsApi.reducer,
-    [paymentApi.reducerPath]: paymentApi.reducer
+    [paymentApi.reducerPath]: paymentApi.reducer,
+    [vehicleSpecsApi.reducerPath]: vehicleSpecsApi.reducer,
+    [customerSupportTicketsApi.reducerPath]: customerSupportTicketsApi.reducer
+   
   })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -47,6 +53,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
     .concat(registerApi.middleware).concat(loginApi.middleware)
     .concat(vehicleApi.middleware).concat(locBranchesApi.middleware)
     .concat(bookingsApi.middleware).concat(paymentApi.middleware)
+    .concat(vehicleSpecsApi.middleware).concat(customerSupportTicketsApi.middleware)
  });
 
 export const persistor = persistStore(store);

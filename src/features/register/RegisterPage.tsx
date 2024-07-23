@@ -3,7 +3,7 @@ import { useRegisterUserMutation } from './registerSlice'
 import {SubmitHandler, useForm } from 'react-hook-form'
 import { User } from './registerSlice'
 import toast, { Toaster } from 'react-hot-toast'
-import { Navigate, redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 const RegisterPage = () => {
   const {register,handleSubmit,formState:{errors}}= useForm<User>()
@@ -24,10 +24,10 @@ const [registerUser,{data,error,isLoading,isSuccess}] = useRegisterUserMutation(
   if (data)toast.success(data)
 
   if (error) {
-    type Error = {
-      status: number;
-      data: string| unknown;
-    };
+    // type Error = {
+    //   status: number;
+    //   data: string| unknown;
+    // };
     console.log(error)
     // const { status, data }= error as Error ;
     // status === 400 ? toast.error(`${data}`) : toast.error('An error occurred');

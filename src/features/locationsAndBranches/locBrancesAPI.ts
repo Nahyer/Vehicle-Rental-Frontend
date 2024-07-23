@@ -1,3 +1,4 @@
+import { RootState } from "@/app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Tlocation{
@@ -9,7 +10,13 @@ export interface Tlocation{
 
 export const locBranchesApi = createApi({
     reducerPath: 'locBranchesAPI',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/branchlocations'}),
+    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/branchlocations',
+    prepareHeaders:(headers,{getState})=>{
+        const token = (getState() as RootState).session.token
+        token && headers.set('authorization', token)
+        return headers
+      }
+    }),
     endpoints: (builder) => ({
         getLocations: builder.query<Tlocation[], void>({
             query: () => ''

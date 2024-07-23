@@ -1,3 +1,4 @@
+import { RootState } from '@/app/store';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export interface TVehicle {
@@ -19,13 +20,24 @@ export interface TVehicle {
 }
 export const vehicleApi = createApi({
     reducerPath: 'vehicleApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehicles' }),
-    tagTypes: ['getVehicles', 'getVehicleById', 'deleteVehicle'],
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehicles',
+    prepareHeaders:(headers,{getState})=>{
+        const token = (getState() as RootState).session.token
+        token && headers.set('authorization', token)
+        return headers
+      }
+     })
+    ,
+    tagTypes: ['getVehicles','getAvailableVehicles', 'getVehicleById', 'deleteVehicle'],
     endpoints: (builder) => ({
         getVehicles: builder.query<TVehicle[], void>({ 
             query: () => '',
             providesTags: ['getVehicles'],
          }),
+        getAvailableVehicles: builder.query<TVehicle[], void>({
+            query: () => 'available',
+            providesTags: ['getAvailableVehicles'],
+        }),
         getVehicleById: builder.query<TVehicle, number>({
         query: (id) => `${id}`
         }),
@@ -54,4 +66,5 @@ export const vehicleApi = createApi({
         }),
     }),
     })
-export const { useGetVehiclesQuery, useGetVehicleByIdQuery, useAddVehicleMutation, useUpdateVehicleMutation, useDeleteVehicleMutation } = vehicleApi
+
+export const { useGetVehiclesQuery, useGetAvailableVehiclesQuery, useGetVehicleByIdQuery, useAddVehicleMutation, useUpdateVehicleMutation, useDeleteVehicleMutation } = vehicleApi;

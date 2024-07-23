@@ -1,4 +1,5 @@
 
+import { RootState } from "@/app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TCustomerSupportTickets {
@@ -7,18 +8,28 @@ export interface TCustomerSupportTickets {
   subject: string;
   description: string;
   status: string;
-}
+  users:{
+    full_name: string;
+    email: string;
+  };
+  }
 
 export const customerSupportTicketsApi = createApi({
   reducerPath: 'customerSupportTicketsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/customer_support_tickets' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/tickets',
+    prepareHeaders:(headers,{getState})=>{
+      const token = (getState() as RootState).session.token
+      token && headers.set('authorization', `${token}`)
+      return headers
+    }
+   }),
   endpoints: (builder) => ({
     getcustomerSupportTickets: builder.query<TCustomerSupportTickets[], void>({
       query: () => ''
     }),
     addcustomerSupportTickets: builder.mutation<TCustomerSupportTickets, Partial<TCustomerSupportTickets>>({
       query: (item) => ({
-        url: 'add',
+        url: 'create',
         method: 'POST',
         body: item
       })
@@ -38,3 +49,10 @@ export const customerSupportTicketsApi = createApi({
     })
   })
 });
+
+export const {
+  useGetcustomerSupportTicketsQuery,
+  useAddcustomerSupportTicketsMutation,
+  useUpdatecustomerSupportTicketsMutation,
+  useDeletecustomerSupportTicketsMutation
+} = customerSupportTicketsApi;

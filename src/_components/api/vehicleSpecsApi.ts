@@ -1,4 +1,5 @@
 
+import { RootState } from "@/app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TVehicleSpecs {
@@ -16,15 +17,24 @@ export interface TVehicleSpecs {
 
 export const vehicleSpecsApi = createApi({
   reducerPath: 'vehicleSpecsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehicleSpecs' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehiclespecs',
+    prepareHeaders:(headers,{getState})=>{
+      const token = (getState() as RootState).session.token
+      if(token){
+        headers.set('authorization', token)
+      }
+      return headers
+    }
+   }),
   endpoints: (builder) => ({
     getvehicleSpecs: builder.query<TVehicleSpecs[], void>({
-      query: () => ''
+      query: () => '',
     }),
     addvehicleSpecs: builder.mutation<TVehicleSpecs, Partial<TVehicleSpecs>>({
       query: (item) => ({
-        url: 'add',
+        url: 'create',
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: item
       })
     }),
@@ -43,3 +53,5 @@ export const vehicleSpecsApi = createApi({
     })
   })
 });
+
+export const { useGetvehicleSpecsQuery, useAddvehicleSpecsMutation, useUpdatevehicleSpecsMutation, useDeletevehicleSpecsMutation } = vehicleSpecsApi;

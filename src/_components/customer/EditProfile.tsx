@@ -1,4 +1,27 @@
-import { useForm } from "react-hook-form";
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input";
+import {  Mail, NotebookTabs, PhoneCall,  User2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export interface EditFormValues {
   
   user_id: number;
@@ -7,109 +30,88 @@ export interface EditFormValues {
   contact_phone: string;
   address: string; 
 }
+
 const EditProfile = () => {
-  const {register, handleSubmit, formState: { errors }} = useForm();
+//   const {register, handleSubmit, formState: { errors }} = useForm();
 
   
-  const onSubmit = async (data:EditFormValues) => {
-    console.log(data);
-  }
+//   const onSubmit = async (data:EditFormValues) => {
+//     console.log(data);
+//   }
 
   return (
     <>
-      <div className="flex justify-center items-center ">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full " onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
-              First Name:
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                errors.firstName ? 'border-red-500' : ''
-              }`}
-              id="firstName"
-              type="text"
-              {...register("firstName")}
-            />
-            {errors.firstName && <span className="text-red-500">This field is required</span>}
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
-              Last Name:
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                errors.lastName ? 'border-red-500' : ''
-              }`}
-              id="lastName"
-              type="text"
-              {...register("lastName")}
-            />
-            {errors.lastName && <span className="text-red-500">This field is required</span>}
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
-              Phone Number:
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                errors.phone ? 'border-red-500' : ''
-              }`}
-              id="phone"
-              type="tel"
-              {...register("phone")}
-            />
-            {errors.phone && <span className="text-red-500">This field is required</span>}
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email:
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                errors.email ? 'border-red-500' : ''
-              }`}
-              id="email"
-              type="text"
-              {...register("email")}
-            />
-            {errors.email && <span className="text-red-500">This field is required</span>}
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
-              Address:
-            </label>
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                errors.address ? 'border-red-500' : ''
-              }`}
-              id="address"
-              type="text"
-              {...register("address")}
-            />
-            {errors.address && <span className="text-red-500">This field is required</span>}
-          </div>
-          {/* <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="profilePicture">
-              Profile Picture:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="profilePicture"
-              type="file"
-              accept="image/*"
-            />
-          </div> */}
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
+   <Card x-chunk='dashboard-04-chunk-4' className='w-max'>
+							<CardHeader>
+								<CardTitle>Reyhan Luyai</CardTitle>
+								<CardDescription>
+									<p>username</p>
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className='flex gap-2  items-center'>
+									<User2 width={20} height={20} />
+									<p>full name</p>
+								</div>
+								<div className='flex gap-2 items-center'>
+									<Mail width={20} height={20} />
+									<p>email</p>
+								</div>
+								<div className='flex gap-2 items-center'>
+									<PhoneCall width={15} height={20} />
+									<p>phone number</p>
+								</div>
+								<div className='flex gap-2 items-center'>
+									<NotebookTabs width={20} height={20} />
+									<p>address</p>
+								</div>
+							</CardContent>
+
+							<CardFooter>
+								{/* <SheetContent/> */}
+								<Sheet>
+									<SheetTrigger asChild>
+										<Button variant='outline' className='w-80'>
+											Edit
+										</Button>
+									</SheetTrigger>
+									<SheetContent>
+										<SheetHeader>
+											<SheetTitle>Edit profile</SheetTitle>
+											<SheetDescription>
+												Update your Profile information
+											</SheetDescription>
+										</SheetHeader>
+										<div className='grid w-full max-w-sm items-center gap-1.5 pt-2'>
+											<Label htmlFor='email'>Email</Label>
+											<Input type='email' id='email' placeholder='Email' />
+										</div>
+                                        <div className='grid w-full max-w-sm items-center gap-1.5 pt-2'>
+											<Label htmlFor='email'>Email</Label>
+											<Input type='email' id='email' placeholder='Email' />
+										</div>
+                                        <div className='grid w-full max-w-sm items-center gap-1.5 pt-2'>
+											<Label htmlFor='email'>Email</Label>
+											<Input type='email' id='email' placeholder='Email' />
+										</div>
+                                        <div className='grid w-full max-w-sm items-center gap-1.5 pt-2'>
+											<Label htmlFor='email'>Email</Label>
+											<Input type='email' id='email' placeholder='Email' />
+										</div>
+                                        <div className='grid w-full max-w-sm items-center gap-1.5 pt-2'>
+											<Label htmlFor='email'>Email</Label>
+											<Input type='email' id='email' placeholder='Email' />
+										</div>
+										<SheetFooter>
+											<SheetClose asChild>
+												<Button type='submit'>Save changes</Button>
+											</SheetClose>
+										</SheetFooter>
+									</SheetContent>
+								</Sheet>
+							</CardFooter>
+						</Card>
+					
     </>
   );
 

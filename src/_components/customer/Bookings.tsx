@@ -101,9 +101,9 @@ const Bookings = () => {
 
 
 	const Book = async (data: yup.InferType<typeof BookingSchema>) => {
-		
+		const key = 'pk_test_51PYWB7AfWaTAZW5WwrIU7cBSiAkB9EM4WS29c76ZfyHDHTL94jNC3IDRSsHfwxB72aQYW37a4abh00yYCxAtRmdB00751Xr5xF'
 
-		if (!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) {
+		if (!key) {
 			console.error("Stripe publishable key is not defined");
 			return;
 		}
@@ -125,7 +125,7 @@ const Bookings = () => {
 			console.log(res.data);
 
 			const stripePromise = loadStripe(
-				import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!
+				key
 			);
 
 			const stripe = await stripePromise;

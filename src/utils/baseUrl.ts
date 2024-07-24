@@ -1,1 +1,1 @@
-export const baseUrl = 'https://rentmyride.azurewebsites.net/'
+export const baseUrl = 'https://rentmyride.azurewebsites.net'

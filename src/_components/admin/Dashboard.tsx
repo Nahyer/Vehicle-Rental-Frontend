@@ -1,7 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { Link} from "react-router-dom";
 import avator from "../../assets/images/avatar.svg";
-
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   CarFront,
   ClipboardIcon,
@@ -12,23 +19,7 @@ import {
   Users2,
 } from "lucide-react"
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+
 
 import {useDispatch } from "react-redux";
 
@@ -40,6 +31,7 @@ import {
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import logo from "../../assets/images/logo.svg";
 import { logoutSession } from "@/features/login/sessionSlice";
+import { Button } from "@/components/ui/button";
 
 
 const UserDashboard = () => {
@@ -155,9 +147,9 @@ const UserDashboard = () => {
       </TooltipProvider>
       
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 justify-between">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 justify-end">
          
-          <Breadcrumb className="hidden md:flex">
+          {/* <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
@@ -175,7 +167,7 @@ const UserDashboard = () => {
                 <BreadcrumbPage>Recent Orders</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
-          </Breadcrumb>
+          </Breadcrumb> */}
           {/* <div className="relative ml-auto flex-1 md:grow-0">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -202,9 +194,7 @@ const UserDashboard = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+             
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>

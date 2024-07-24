@@ -14,9 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react"
+import { useToast } from "@/components/ui/use-toast";
 
 
-type FormValues = {
+
+export interface FormValues {
 	username: string;
 	password: string;
 };
@@ -29,6 +31,7 @@ function LoginForm() {
 	} = useForm<FormValues>();
 
 	const dispatch = useDispatch();
+	const {toast} = useToast()
 
 	const onsubmit = async (creds: FormValues) => {
 		console.log(creds);
@@ -36,6 +39,9 @@ function LoginForm() {
 		console.log(res.data);
 		if (res.error) {
 			console.log(res.error);
+			toast({
+				description: "Something wrong happened. Couldn't log you in"
+			})
 		}
 		if (res.data) {
 			dispatch(logSession(res.data));

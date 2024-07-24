@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import avator from "../../assets/images/avatar.svg";
 
@@ -8,10 +8,22 @@ import {
 	BookMinusIcon,
 	Car,
 
+	Home,
+
+	LineChart,
+
 	Monitor,
 
+	Package,
+
+	Package2,
+
+	PanelLeft,
+
 	Settings,
-	TicketSlash
+	ShoppingCart,
+	TicketSlash,
+	Users2
 } from "lucide-react";
 
 
@@ -41,8 +53,20 @@ import {
 } from "@/components/ui/tooltip";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import logo from "../../assets/images/logo.svg";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSession } from "@/features/login/sessionSlice";
 
 const UserDashboard = () => {
+	const { user } = useSelector((state: RootState) => state.session);
+	if (user === null) {
+		return <Navigate to='/' />;
+	}
+	
+
+	const dispatch = useDispatch();
+	const logout = () => dispatch(logoutSession());
 	return (
 		<div className='flex min-h-screen w-full flex-col bg-muted/40'>
 			<TooltipProvider>
@@ -139,7 +163,7 @@ const UserDashboard = () => {
 
 			<div className='flex flex-col sm:gap-4 sm:py-4 sm:pl-14'>
 				<header className='sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 justify-between'>
-					{/* <Sheet>
+					<Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="sm:hidden">
               <PanelLeft className="h-5 w-5" />
@@ -149,42 +173,42 @@ const UserDashboard = () => {
           <SheetContent side="left" className="sm:max-w-xs">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
-                href="#"
+                to="#"
                 className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
               >
                 <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
                 <span className="sr-only">Acme Inc</span>
               </Link>
               <Link
-                href="#"
+                to="#"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <Home className="h-5 w-5" />
                 Dashboard
               </Link>
               <Link
-                href="#"
+                to="#"
                 className="flex items-center gap-4 px-2.5 text-foreground"
               >
                 <ShoppingCart className="h-5 w-5" />
                 Orders
               </Link>
               <Link
-                href="#"
+                to="#"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <Package className="h-5 w-5" />
                 Products
               </Link>
               <Link
-                href="#"
+                to="#"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <Users2 className="h-5 w-5" />
                 Customers
               </Link>
               <Link
-                href="#"
+                to="#"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <LineChart className="h-5 w-5" />
@@ -192,7 +216,7 @@ const UserDashboard = () => {
               </Link>
             </nav>
           </SheetContent>
-        </Sheet> */}
+        </Sheet>
 					<Breadcrumb className='hidden md:flex'>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -242,7 +266,7 @@ const UserDashboard = () => {
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem>Logout</DropdownMenuItem>
+							<DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</header>

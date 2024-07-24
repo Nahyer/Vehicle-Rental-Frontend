@@ -1,8 +1,5 @@
 import { CarIcon, DollarSignIcon } from "lucide-react";
 
-
-import { Button } from "@/components/ui/button";
-
 import { Area, AreaChart, CartesianGrid, XAxis,Bar, BarChart, LabelList, YAxis } from "recharts";
 import {
 	Card,
@@ -30,7 +27,7 @@ const Overview = () => {
 	return (
 		<div className='grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2'>
 			<div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4'>
-				<Card className='sm:col-span-2' x-chunk='dashboard-05-chunk-0'>
+				{/* <Card className='sm:col-span-2' x-chunk='dashboard-05-chunk-0'>
 					<CardHeader className='pb-3'>
 						<CardTitle>Your Orders</CardTitle>
 						<CardDescription className='max-w-lg text-balance leading-relaxed'>
@@ -41,7 +38,7 @@ const Overview = () => {
 					<CardFooter>
 						<Button>Create New Order</Button>
 					</CardFooter>
-				</Card>
+				</Card> */}
 				<Card x-chunk='dashboard-05-chunk-1'>
 					<CardHeader className='pb-2'>
 						<CardDescription>This Week</CardDescription>

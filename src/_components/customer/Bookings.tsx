@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import {  useMemo, useState } from "react";
 import { useGetLocationsQuery } from "../../features/locationsAndBranches/locBrancesAPI";
-import { AuthUser } from "../Nav";
 import { useForm } from "react-hook-form";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -27,22 +26,21 @@ import {
 	FormField,
 	FormLabel,
 	FormItem,
-	FormMessage
+	FormMessage,
 } from "@/components/ui/form";
 
 import { toast } from "@/components/ui/use-toast";
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup'
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-
 
 const BookingSchema = yup.object().shape({
 	user_id: yup.number().required("User ID is required"),
 	vehicle_id: yup.number().required("Vehicle ID is required"),
 	location_id: yup.number().required("Location ID is required"),
-	pickup_date: yup.date().required("Booking date is required"),
+	booking_date: yup.date().required("Booking date is required"),
 	return_date: yup.date().required("Return date is required"),
 	total_amount: yup.number().required("Total amount is required"),
 });
@@ -51,8 +49,7 @@ const Bookings = () => {
 	const { user } = useSelector((state: RootState) => state.session);
 	const [checkOut] = paymentApi.useCheckOutMutation();
 	const { data: locations, isLoading } = useGetLocationsQuery();
-	console.log("🚀 ~ Bookings ~ locations:", locations)
-	
+
 	const { vehicleId } = useParams();
 
 	const form = useForm<yup.InferType<typeof BookingSchema>>({
@@ -61,48 +58,27 @@ const Bookings = () => {
 			user_id: user?.user_id,
 			vehicle_id: Number(vehicleId),
 			location_id: undefined,
-			pickup_date: undefined,
+			booking_date: undefined,
 			return_date: undefined,
 			total_amount: 0,
 		},
 	});
 
-	const {
-		data: vehicle,
-		error
-	} = vehicleApi.useGetVehicleByIdQuery(Number(vehicleId));undefined
+	const { data: vehicle, error } = vehicleApi.useGetVehicleByIdQuery(
+		Number(vehicleId)
+	);
+
 	const [addBooking, { isSuccess: BookingSuccesful }] =
 		bookingsApi.useAddBookingMutation();
 
 	const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-	console.log("🚀 ~ Bookings ~ startDate:", startDate)
 	const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-	const [totalCost, setTotalCost] = useState<number | "">("");
-	const [locationId] = useState<number | null>();
+	const [locationId, setLocationId] = useState<number | undefined>(undefined);
 
 	if (!user) return <Navigate to={"/login"} />;
-	const { user_id: uId }: AuthUser = user;
 	error && console.log(error);
 	const vehicleSpecs = vehicle?.vehicleSpecs;
 	const rentalRate = vehicle?.rental_rate;
-
-	// const handleBookDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	setStartDate(new Date(event.target.value));
-	// };
-
-	// const handleReturnDateChange = (
-	// 	event: React.ChangeEvent<HTMLInputElement>
-	// ) => {
-	// 	setEndDate(new Date(event.target.value));
-	// };
-
-	// const handleLocationChange = (
-	// 	event: React.ChangeEvent<HTMLSelectElement>
-	// ) => {
-	// 	const locId = parseInt(event.target.value);
-	// 	console.log(typeof locId);
-	// 	setLocationId(locId);
-	// };
 
 	const calculateTotalCost = () => {
 		if (startDate && endDate && rentalRate) {
@@ -115,21 +91,17 @@ const Bookings = () => {
 		return 0;
 	};
 
-	useEffect(() => {
+	const totalCost = useMemo(() => {
 		if (startDate && endDate && rentalRate) {
-			setTotalCost(calculateTotalCost());
+			return calculateTotalCost();
 		}
-	}, [startDate, endDate]);
+		return 0;
+	}, [startDate, endDate, rentalRate]);
+
+
 
 	const Book = async (data: yup.InferType<typeof BookingSchema>) => {
-		toast({
-			title: "You submitted the following values:",
-			description: (
-				<pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-					<code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		});
+		
 
 		if (!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) {
 			console.error("Stripe publishable key is not defined");
@@ -139,21 +111,23 @@ const Bookings = () => {
 			return console.log("Please fill in all fields");
 		}
 
-		data.user_id = uId;
-		data.vehicle_id = Number(vehicleId);
-		data.location_id = locationId as number;
 		data.total_amount = totalCost as number;
 		console.log(data);
 
-		const res = await addBooking(data);
 
+
+		const res = await addBooking(data);
+		if (res.error) {
+			toast({description:"An error occured while booking"});
+			console.log(res);
+		}
 		if (BookingSuccesful) {
 			console.log(res.data);
 
 			const stripePromise = loadStripe(
 				import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!
 			);
-			
+
 			const stripe = await stripePromise;
 			const [{ booking_id }] = res.data || [];
 
@@ -171,50 +145,58 @@ const Bookings = () => {
 		}
 	};
 	console.log(form.watch())
-	console.log(form.formState.errors)
-
 
 	//Todo: Implement validation for dates
 
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<Form {...form}>
-			<form onSubmit={form.handleSubmit(Book)} className='grid grid-cols-2 gap-4 p-6 md:p-10 mt-10'>
-			{/* <main className='flex-1 grid md:grid-cols-2 gap-8 p-6 md:p-10'> */}
-				<div className='bg-card p-6 rounded-lg shadow'>
-					<h2 className='text-2xl font-bold mb-4'>Book Your Rental</h2>
-					
-						
-							<FormField
-								control={form.control}
-								name='pickup_date'
-								render={({ field }) => (
-									<FormItem className='flex flex-col'>
-										<FormLabel htmlFor='pickup-date'>Pickup Date</FormLabel>
-										<Input
-											type='date'
-											value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-											onChange={(e) => {
-												field.onChange(e.target.value);
-												setStartDate(new Date(e.target.value));
-											}}
-											min={format(new Date(), "yyyy-MM-dd")}
-										/>
-										<FormMessage />
-									</FormItem>		
-								)}		
-							/>
+				<form
+					onSubmit={form.handleSubmit(Book)}
+					className='grid grid-cols-2 gap-4 p-6 md:p-10 mt-10'
+				>
+					{/* <main className='flex-1 grid md:grid-cols-2 gap-8 p-6 md:p-10'> */}
+					<div className='bg-card p-6 rounded-lg shadow'>
+						<h2 className='text-2xl font-bold mb-4'>Book Your Rental</h2>
 
-							<FormField
+						<FormField
+							control={form.control}
+							name='booking_date'
+							render={({ field }) => (
+								<FormItem className='flex flex-col'>
+									<FormLabel htmlFor='booking_date'>Pickup Date</FormLabel>
+									<Input
+										type='date'
+										value={
+											field.value
+												? new Date(field.value).toISOString().split("T")[0]
+												: ""
+										}
+										onChange={(e) => {
+											field.onChange(e.target.value);
+											setStartDate(new Date(e.target.value));
+										}}
+										min={format(new Date(), "yyyy-MM-dd")}
+									/>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
 							control={form.control}
 							name='return_date'
 							render={({ field }) => (
 								<FormItem className='flex flex-col my-3'>
 									<FormLabel htmlFor='return-date'>Drop-off Date</FormLabel>
-									
+
 									<Input
 										type='date'
-										value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
+										value={
+											field.value
+												? new Date(field.value).toISOString().split("T")[0]
+												: ""
+										}
 										onChange={(e) => {
 											field.onChange(e.target.value);
 											setEndDate(new Date(e.target.value));
@@ -226,32 +208,37 @@ const Bookings = () => {
 							)}
 						/>
 
-
-							<FormField
+						<FormField
 							control={form.control}
 							name='location_id'
 							render={({ field }) => (
 								<FormItem className='flex flex-col my-3'>
 									<FormLabel htmlFor='location'>Location</FormLabel>
 									<Select
-										onValueChange={field.onChange}
+										onValueChange={(value) => {
+											field.onChange(value);
+											setLocationId(Number(value));
+										}}
 										defaultValue={field.value?.toString()}
 									>
 										<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder='Select pickup location'/>
-										</SelectTrigger>
+											<SelectTrigger>
+												<SelectValue placeholder='Select pickup location' />
+											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{isLoading? (
+											{isLoading ? (
 												<div>Loading...</div>
-											):(
-											 locations?.map((location) => (
-												<SelectItem key={location.location_id} value={location.location_id.toString()}>
-													{location.name}
-												</SelectItem>
-											)))}
-												
+											) : (
+												locations?.map((location) => (
+													<SelectItem
+														key={location.location_id}
+														value={location.location_id.toString()}
+													>
+														{location.name}
+													</SelectItem>
+												))
+											)}
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -259,23 +246,31 @@ const Bookings = () => {
 							)}
 						/>
 
-						
-					
-				</div>
-				<div className='bg-card p-6 rounded-lg shadow'>
-					<h2 className='text-2xl font-bold mb-4'>{vehicleSpecs?.manufacturer} {vehicleSpecs?.model}</h2>
-					<div className='grid gap-4'>
-					<img
-								src='/placeholder.svg'
+						<div className='mt-10'>
+							<label className='block text-xs text-emerald-950'>
+								Total Cost:
+							</label>
+							<span className='text-3xl font-bold text-emerald-500'>
+								$ {totalCost}
+							</span>
+						</div>
+					</div>
+					<div className='bg-card p-6 rounded-lg shadow'>
+						<h2 className='text-2xl font-bold mb-4'>
+							{vehicleSpecs?.manufacturer} {vehicleSpecs?.model}
+						</h2>
+						<div className='grid gap-4'>
+							<img
+								src={`${vehicleSpecs?.image_url}`}
 								alt={`${vehicleSpecs?.manufacturer} ${vehicleSpecs?.model}`}
 								width={300}
 								height={200}
-								className='h-48 w-full rounded-t-lg object-cover transition-opacity group-hover:opacity-80' />
+								className='h-48 w-full rounded-t-lg object-cover transition-opacity group-hover:opacity-80'
+							/>
 							<div className='p-4'>
 								<div className='flex items-center justify-between'>
 									<div className='text-lg font-medium'>
-										
-										<SelectSeparator/>
+										<SelectSeparator />
 										{vehicle?.availability && (
 											<Badge className='bg-green-200 text-green-600'>
 												• Available
@@ -290,66 +285,100 @@ const Bookings = () => {
 									</div>
 								</div>
 								<div className='mt-2 text-sm text-muted-foreground'>
-									{vehicleSpecs?.year} • {vehicleSpecs?.seating_capacity} passengers •{" "}
-									{vehicleSpecs?.engine_capacity} mpg
+									{vehicleSpecs?.year} • {vehicleSpecs?.seating_capacity}{" "}
+									passengers • {vehicleSpecs?.engine_capacity} mpg
 								</div>
 								<p className='mt-4 text-sm leading-relaxed'>
 									{vehicleSpecs?.features}
 								</p>
 							</div>
-					</div>
-				</div>
-				<div className='bg-card p-6 rounded-lg shadow col-span-2'>
-					<h2 className='text-2xl font-bold mb-4'>Your Booking</h2>
-					<div className='grid gap-4'>
-						<div className='grid grid-cols-[120px_1fr] items-center gap-4'>
-							<img
-								src='/placeholder.svg'
-								width={120}
-								height={80}
-								alt='Vehicle'
-								className='aspect-video object-cover rounded-md'
-							/>
-							<div>
-								<div className='font-medium'>Toyota Camry</div>
-								<div className='text-muted-foreground'>Sedan</div>
-								<div className='text-muted-foreground'>$50/day</div>
-							</div>
-						</div>
-						<div className='grid grid-cols-2 gap-4'>
-							<div className='grid gap-2'>
-								<div className='font-medium'>Pickup Location</div>
-								<div>123 Main St, Anytown USA</div>
-							</div>
-							<div className='grid gap-2'>
-								<div className='font-medium'>Drop-off Location</div>
-								<div>456 Oak Rd, Anytown USA</div>
-							</div>
-						</div>
-						<div className='grid grid-cols-2 gap-4'>
-							<div className='grid gap-2'>
-								<div className='font-medium'>Pickup Date</div>
-								<div>June 1, 2023</div>
-							</div>
-							<div className='grid gap-2'>
-								<div className='font-medium'>Drop-off Date</div>
-								<div>June 5, 2023</div>
-							</div>
-						</div>
-						<div className='grid grid-cols-2 gap-4'>
-							<div className='grid gap-2'>
-								<div className='font-medium'>Total Cost</div>
-								<div>$200</div>
-							</div>
-							<Button type='submit' className='w-full'>
-								Confirm Booking
-							</Button>
 						</div>
 					</div>
-				</div>
-		
+					<div className='bg-card p-6 rounded-lg shadow col-span-2'>
+						<h2 className='text-2xl font-bold mb-4'>Your Booking</h2>
+						<div className='grid gap-4'>
+							<div className='grid grid-cols-[120px_1fr] items-center gap-4'>
+								<img
+									src={vehicleSpecs?.image_url}
+									width={120}
+									height={80}
+									alt='Vehicle'
+									className='aspect-video object-cover rounded-md'
+								/>
+								<div>
+									<div className='font-medium'>
+										{vehicle?.vehicleSpecs.manufacturer}{" "}
+										{vehicle?.vehicleSpecs.model}
+									</div>
+
+									<div className='text-muted-foreground'>
+										$ {vehicle?.rental_rate}/day
+									</div>
+								</div>
+							</div>
+							<div className='grid grid-cols-2 gap-4'>
+								<div className='grid gap-2'>
+									<div className='font-medium'>Pickup Location</div>
+									{
+										<div>
+											{
+												locations?.find(
+													(location) => location.location_id === locationId
+												)?.name
+											}
+										</div>
+									}
+								</div>
+								<div className='grid gap-2'>
+									<div className='font-medium'>Drop-off Location</div>
+									{
+										<div>
+											{
+												locations?.find(
+													(location) => location.location_id === locationId
+												)?.name
+											}
+										</div>
+									}
+								</div>
+							</div>
+							<div className='grid grid-cols-2 gap-4'>
+								<div className='grid gap-2'>
+									<div className='font-medium'>Pickup Date</div>
+									<div>
+										{startDate &&
+											startDate.toLocaleDateString("en-US", {
+												month: "long",
+												day: "numeric",
+												year: "numeric",
+											})}
+									</div>
+								</div>
+								<div className='grid gap-2'>
+									<div className='font-medium'>Drop-off Date</div>
+									<div>
+										{endDate &&
+											endDate.toLocaleDateString("en-US", {
+												month: "long",
+												day: "numeric",
+												year: "numeric",
+											})}
+									</div>
+								</div>
+							</div>
+							<div className='grid grid-cols-2 gap-4'>
+								<div className='grid gap-2'>
+									<div className='font-medium'>Total Cost</div>
+									<div>${totalCost}</div>
+								</div>
+								<Button type='submit' className='w-full'>
+									Confirm Booking
+								</Button>
+							</div>
+						</div>
+					</div>
 				</form>
-				</Form>
+			</Form>
 		</div>
 	);
 };

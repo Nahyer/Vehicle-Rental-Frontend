@@ -9,9 +9,16 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
+import { useRegisterUserMutation } from "../register/registerSlice";
+import { useNavigate } from "react-router-dom";
+import { ButtonLoading, FormValues } from "./LoginForm";
+import { useLoginUserMutation } from "./loginApi";
+import { useDispatch} from "react-redux";
+import { logSession } from "./sessionSlice";
 
 const schema = yup.object().shape({
     fullname: yup.string().required('fullname is required'),
@@ -27,12 +34,50 @@ const schema = yup.object().shape({
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema)
     });
-    const onSubmit = (data: yup.InferType<typeof schema>) => {
+    const [loginUser, { isLoading:loging }] = useLoginUserMutation();
+    const {toast} = useToast()
+    const [registerUser,{isLoading}] = useRegisterUserMutation()
+    const dispatch = useDispatch();
+    const navigate=useNavigate()
+
+    const onSubmit = async(user: yup.InferType<typeof schema>) => {
         // Send data to the server
-        console.log(data);
+        try {
+            console.log(user)
+            const res = await registerUser(user)
+            if(res.data)toast({description: "Registration successful. Loging you in..."})
+            //login the user after registration
+        
+            const {username,password} = user
+            const lUser:FormValues=
+             {username,password}
+
+            const res2 = await loginUser(lUser)
+            if (res2.data) {
+                toast({description: 'logged in successfully'})
+                dispatch(logSession(res2.data))
+                navigate('/')
+            }
+            console.log(res2.data)
+            if (res2.error) {
+              console.log(res2.error)
+            }
+           
+            if (res.error) {
+              console.log(res.error)
+            }
+          } catch (err) {
+            console.error(err)
+          }
     };
+
+    if (isLoading) {
+        return <div>Loading...</div>
+      }
+   
+     
 
     return (
         <Card className="mx-auto max-w-sm">
@@ -80,9 +125,13 @@ const SignUp = () => {
                             <Input id="confirmPassword" type="password" {...register('confirmPassword')} placeholder="Re-enter password" />
                             {errors.confirmPassword && <span className="text-sm text-red-500">{errors.confirmPassword.message}</span>}
                         </div>
+                        {isLoading || loging?
+                        <ButtonLoading name="Please wait..."/>:
                         <Button type="submit" className="w-full">
                             Create an account
                         </Button>
+                        
+                        }
                        
                     </div>
                     <div className="mt-4 text-center text-sm">

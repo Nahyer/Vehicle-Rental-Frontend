@@ -1,27 +1,35 @@
 import { ArrowRight } from 'lucide-react'
-import { useRegisterUserMutation } from './registerSlice'
+import { useRegisterUserMutation,User } from './registerSlice'
 import {SubmitHandler, useForm } from 'react-hook-form'
-import { User } from './registerSlice'
-import toast, { Toaster } from 'react-hot-toast'
+import { useToast } from "@/components/ui/use-toast"
 import { Navigate } from 'react-router-dom'
 
 const RegisterPage = () => {
   const {register,handleSubmit,formState:{errors}}= useForm<User>()
+  const {toast} = useToast()
 
 const [registerUser,{data,error,isLoading,isSuccess}] = useRegisterUserMutation()
 
   const handleRegister: SubmitHandler<User> = async(user: User) => {
     try {
       console.log(user)
-      await registerUser(user)
-    } catch (err) {   
+      const res = await registerUser(user)
+      toast({description: res.data})
+      if (res.error) {
+        console.log(res.error)
+      }
+    } catch (err) {
+     
+    
       console.error(err)
     }
   }
+
+  
   if (isLoading) {
     return <div>Loading...</div>
   }
-  if (data)toast.success(data)
+  if (data) toast({description: 'User registered successfully'})
 
   if (error) {
     // type Error = {
@@ -33,7 +41,7 @@ const [registerUser,{data,error,isLoading,isSuccess}] = useRegisterUserMutation(
     // status === 400 ? toast.error(`${data}`) : toast.error('An error occurred');
   }
   if(isSuccess){
-    toast.success('User registered successfully')
+    toast({description: 'User registered successfully'})
     return <Navigate to='/login' replace={true}/>
   }
    
@@ -41,7 +49,7 @@ const [registerUser,{data,error,isLoading,isSuccess}] = useRegisterUserMutation(
   return (
  
   <div className="flex justify-center">
-     <Toaster/>
+    
     <div className="w-96">
           <form onSubmit={handleSubmit(handleRegister)}>
             <div className="mb-4">

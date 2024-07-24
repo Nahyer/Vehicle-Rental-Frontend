@@ -3,19 +3,10 @@ import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { TUsers, useAddusersMutation, useGetusersQuery } from "../api/users"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { TUsers, useGetusersQuery } from "../api/users"
+
+
 import { FilterIcon, MoveHorizontalIcon } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import {
@@ -33,20 +24,20 @@ import {
 const ManageUsers = () => {
   
 
-  const [search, setSearch] = useState("")
+  // const [search, setSearch] = useState("")
 
-  const [roleFilter, setRoleFilter] = useState("")
+  // const [roleFilter, setRoleFilter] = useState("")
 
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([])
+  // const [selectedUsers, setSelectedUsers] = useState<number[]>([])
 
  
 
-  const [editUser, setEditUser] = useState<Partial<TUsers>>({})
-  const [addUser, setAddUser] = useState<Partial<TUsers>>({})
-  const { data: users,refetch, error} = useGetusersQuery()
+  // const [editUser, setEditUser] = useState<Partial<TUsers>>({})
+  // const [addUser, setAddUser] = useState<Partial<TUsers>>({})
+  const { data: users, error} = useGetusersQuery()
   // const [deleteUser] = useDeleteusersMutation()
   // const [updateUser] = useUpdateusersMutation()
-  const [addUsers] = useAddusersMutation()
+  // const [addUsers] = useAddusersMutation()
 
   // const filteredUsers = useMemo(() => {
   //   if (!users) {
@@ -84,190 +75,29 @@ const ManageUsers = () => {
   // }
 
 
-  const handleAdd = async (data: Partial<TUsers>) => {
-    try {
+  // const handleAdd = async (data: Partial<TUsers>) => {
+  //   try {
       
-      await addUsers(data)
+  //     await addUsers(data)
   
-      refetch()
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     refetch()
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedUsers(users?.map((user) => user.user_id) || [])
-    } else {
-      setSelectedUsers([])
-    }
-  }
+  // const handleSelectAll = (checked: boolean) => {
+  //   if (checked) {
+  //     setSelectedUsers(users?.map((user) => user.user_id) || [])
+  //   } else {
+  //     setSelectedUsers([])
+  //   }
+  // }
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <Input
-          placeholder="Search users"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <Select
-          name="role"
-          value={roleFilter}
-          onValueChange={(value) => setRoleFilter(value)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select role" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="admin">Admin</SelectItem>
-            <SelectItem value="user">User</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>
-              <input
-                type="checkbox"
-                checked={selectedUsers.length === users?.length}
-                onChange={(e) => handleSelectAll(e.target.checked)}
-              />
-            </TableHead>
-            <TableHead>Full Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users?.map((user) => (
-            <TableRow key={user.user_id}>
-              <TableCell>
-                <input
-                  type="checkbox"
-                  checked={selectedUsers.includes(user.user_id)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedUsers([...selectedUsers, user.user_id])
-                    } else {
-                      setSelectedUsers(selectedUsers.filter((id) => id !== user.user_id))
-                    }
-                  }}
-                />
-              </TableCell>
-              <TableCell>{user.full_name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>
-                <Badge>{user.auth?.role}</Badge>
-              </TableCell>
-              <TableCell>
-                <Button onClick={() => {
-                  setEditUser(user)
-                
-                }}>Edit</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-   
-      
-
-      <Dialog>
-        <DialogTrigger>
-          <Button>Delete selected</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete users</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            Are you sure you want to delete the selected users?
-          </DialogDescription>
-          <DialogFooter>
-            <Button variant="outline">Cancel</Button>
-           
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <Dialog>
-        <DialogTrigger>
-          <Button>Add user</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add user</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            <Input
-              value={addUser.full_name}
-              onChange={(e) => setAddUser({ ...addUser, full_name: e.target.value })}
-            />
-            <Input
-              value={addUser.email}
-              onChange={(e) => setAddUser({ ...addUser, email: e.target.value })}
-            />
-            <Select
-              name="role"
-              value={addUser.auth?.role}
-              onValueChange={(value) => setAddUser({ ...addUser, auth: { role: value } })}
-            >
-              <SelectTrigger>
-                 <SelectValue placeholder="Select role" />
-                 </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="user">User</SelectItem>
-              </SelectContent>
-            </Select>
-          </DialogDescription>
-          <DialogFooter>
-            <Button variant="outline">Cancel</Button>
-            <Button onClick={() => handleAdd(addUser)}>Add</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <Dialog>
-        <DialogTrigger>
-          <Button>Edit user</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit user</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            <Input
-              value={editUser.full_name}
-              onChange={(e) => setEditUser({ ...editUser, full_name: e.target.value })}
-            />
-            <Input
-              value={editUser.email}
-              onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
-            />
-            <Select
-              name="role"
-              value={editUser.auth?.role}
-              onValueChange={(value) => setEditUser({ ...editUser, auth: { role: value } })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="user">User</SelectItem>
-              </SelectContent>
-            </Select>
-          </DialogDescription>
-          <DialogFooter>
-            <Button variant="outline">Cancel</Button>
-          
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-          <Component />
+     
+          <Component customers={users ?? []}/>
 
     </div>
   )
@@ -279,18 +109,18 @@ export default ManageUsers
 
 
 
- function Component() {
-  const [customers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "555-1234",
-      rentals: 5 ,
-      active: true,
-    },
+ function Component({customers}: {customers: TUsers[]}) {
+  // const [users] = useState([
+  //   {
+  //     id: 1,
+  //     name: "John Doe",
+  //     email: "john@example.com",
+  //     phone: "555-1234",
+  //     rentals: 5 ,
+  //     active: true,
+  //   },
     
-  ])
+  // ])
   // const [users, setUsers] = useState([
   //   {
   //     id: 1,
@@ -320,7 +150,7 @@ export default ManageUsers
   const [sortDirection, setSortDirection] = useState("asc")
   const filteredCustomers = useMemo(() => {
     return customers
-      .filter((customer) => customer.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter((customer) => customer.full_name.toLowerCase().includes(searchTerm.toLowerCase()))
       .sort((a:any, b:any) => {
         if (a[sortColumn] < b[sortColumn]) return sortDirection === "asc" ? -1 : 1
         if (a[sortColumn] > b[sortColumn]) return sortDirection === "asc" ? 1 : -1
@@ -394,23 +224,17 @@ export default ManageUsers
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Phone</TableHead>
-                  <TableHead>Rentals</TableHead>
-                  <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredCustomers.map((customer) => (
-                  <TableRow key={customer.id}>
-                    <TableCell>{customer.name}</TableCell>
+                  <TableRow key={customer.user_id}>
+                    <TableCell>{customer.full_name}</TableCell>
                     <TableCell>{customer.email}</TableCell>
-                    <TableCell>{customer.phone}</TableCell>
-                    <TableCell>{customer.rentals}</TableCell>
-                    <TableCell>
-                      <Badge variant={customer.active ? "secondary" : "outline"} className="px-2 py-1 rounded-md">
-                        {customer.active ? "Active" : "Deactivated"}
-                      </Badge>
-                    </TableCell>
+                    <TableCell>{customer.contact_phone}</TableCell>
+                    
+                    
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -422,6 +246,7 @@ export default ManageUsers
                         <DropdownMenuContent align="end">
                           <ul>
                             <li><Edit data={customer}/></li>
+                            <li><View data={customer}/></li>
                             
                           </ul>
                         </DropdownMenuContent>
@@ -566,33 +391,33 @@ function Edit({data}:any) {
 //   );
 // }
 
-// function View({ data }: { data: any }) {
-//   return (
-//     <Sheet>
-//       <SheetTrigger asChild>
-//         <Button variant="link">Open</Button>
-//       </SheetTrigger>
-//       <SheetContent>
-//         <SheetHeader>
-//           <SheetTitle>View profile</SheetTitle>
-//           <SheetDescription>View the details of your profile.</SheetDescription>
-//         </SheetHeader>
-//         <div className="grid gap-4 py-4">
-//           <div className="grid grid-cols-4 items-center gap-4">
-//             <Label htmlFor="name" className="text-right">
-//               Name
-//             </Label>
-//             <p className="col-span-3">{data.name}</p>
-//           </div>
-//           <div className="grid grid-cols-4 items-center gap-4">
-//             <Label htmlFor="username" className="text-right">
-//               Username
-//             </Label>
-//             <p className="col-span-3">{data.username}</p>
-//           </div>
-//         </div>
-//       </SheetContent>
-//     </Sheet>
-//   );
-// }
+function View({ data }: { data: any }) {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="link">Open</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>View profile</SheetTitle>
+          <SheetDescription>View the details of your profile.</SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <p className="col-span-3">{data.name}</p>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
+            </Label>
+            <p className="col-span-3">{data.username}</p>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
 

@@ -144,7 +144,7 @@ const router = createBrowserRouter([
             element:<AccountSettings/>,
             children:[
               {
-                path: 'edit/:pid',
+                path: 'edit/',
                 element:<EditProfile />,
                 errorElement: <ErrorPage />
               },

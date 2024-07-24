@@ -10,6 +10,7 @@ export interface TUsers {
   address: string;
   auth: {
     role: string;
+    username?: string;
   };
 }
 
@@ -26,6 +27,9 @@ export const usersApi = createApi({
     getusers: builder.query<TUsers[], void>({
       query: () => ''
     }),
+    getUsersById: builder.query<TUsers, number>({
+      query: (id) => `${id}`
+    }),
     addusers: builder.mutation<TUsers, Partial<TUsers>>({
       query: (item) => ({
         url: 'add',
@@ -34,10 +38,10 @@ export const usersApi = createApi({
       })
     }),
     updateusers: builder.mutation<TUsers, Partial<TUsers>>({
-      query: (item) => ({
-        url: 'update',
+      query: (arg: Partial<TUsers>) => ({
+        url: `update/${arg.user_id}`,
         method: 'PUT',
-        body: item
+        body: arg
       })
     }),
     deleteusers: builder.mutation<string, number[]>({
@@ -49,4 +53,4 @@ export const usersApi = createApi({
   })
 });
 
-export const { useGetusersQuery, useAddusersMutation, useUpdateusersMutation, useDeleteusersMutation } = usersApi
+export const { useGetusersQuery,useGetUsersByIdQuery, useAddusersMutation, useUpdateusersMutation, useDeleteusersMutation } = usersApi

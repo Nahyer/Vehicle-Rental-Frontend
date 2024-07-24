@@ -22,7 +22,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -145,19 +144,7 @@ const ManageVehicles = () => {
     try {
       console.log("🚀 ~ createVehicle ~ data:", data)
 	  
-    //   const { timestamp: imgTimestamp, signature: imgSignature } = await getSignatureForUpload('images');
-    //   console.log("🚀 ~ createVehicle ~ imgSignature:", imgSignature)
-    //   console.log("🚀 ~ createVehicle ~ imgTimestamp:", imgTimestamp)
-	//   const imgUrl = await uploadFile(data.image_url[0], imgTimestamp, imgSignature);
-
-	// const fileExtention = data.image_url?.name.substring(data.image_url.name.lastIndexOf('.'));
-	// console.log("🚀 ~ createVehicle ~ data.image_url:", data.image_url)
-	// const fileName = `${data.manufacturer.toLocaleLowerCase()}-${data.model.toLocaleLowerCase()}${fileExtention}`;
-	// {
-	// 	"message": "Unsupported source URL: Lamborghinilsmaruf.jpg"
-	// }
-		
-		// data.image_url.name = fileName
+   
       console.log("🚀 ~ createVehicle ~ data.image_url:", data.image_url.name)
       const imgUrl = await uploadFile(data.image_url);
 	  
@@ -288,9 +275,7 @@ const ManageVehicles = () => {
 						</TableBody>
 					</Table>
 				</CardContent>
-				<CardFooter>
-					<Button>Add New Vehicle</Button>
-				</CardFooter>
+				
 			</Card>
 
 			<Card className=' text-zinc-900 p-6 rounded-lg w-full'>

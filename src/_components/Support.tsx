@@ -40,7 +40,7 @@ const Support = () => {
   })
  
   const handleNewTicketSubmit = async(ticket:yup.InferType<typeof TicxketShema>) => {
-    ticket.user_id = user.user_id
+    ticket.user_id = user?.user_id
     console.log("🚀 ~ handleNewTicketSubmit ~ ticket:", ticket)
     
     try{

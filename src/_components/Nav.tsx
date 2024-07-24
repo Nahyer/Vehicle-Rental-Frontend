@@ -114,8 +114,8 @@ const Nav = () => {
 								)}
 
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>Settings</DropdownMenuItem>
-								<DropdownMenuItem>Support</DropdownMenuItem>
+								{/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
+								{/* <DropdownMenuItem>Support</DropdownMenuItem> */}
 								<DropdownMenuSeparator />
 								<DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
 							</DropdownMenuContent>
@@ -125,7 +125,7 @@ const Nav = () => {
 					<div className='flex space-x-4'>
 						<Dialog >
 							<DialogTrigger asChild>
-								<Button variant='outline'className="px-4 py-2 bg-white text-primary rounded-full hover:bg-primary/80 hover:text-white">Login</Button>
+								<Button variant='outline'className="px-4 py-2 bg-white text-primary rounded-full hover:bg-primary/80 hover:text-white">Login / Register</Button>
 							</DialogTrigger>
 							<DialogContent className='sm:max-w-[425px] max-h-[80vh] overflow-y-auto '>
 							
@@ -144,34 +144,11 @@ const Nav = () => {
 								
 							</DialogContent>
 						</Dialog>
-						<button className='px-4 py-2 bg-primary text-zinc-200 rounded-full hover:bg-primary/80'>
-							Register
-						</button>
+						
 					</div>
 				)}
 			</nav>
-			<dialog id='my_modal_3' className='modal rounded-lg p-6'>
-				<div className='modal-box pr-0 bg-zinc-200 rounded-lg '>
-					<form method='dialog'>
-						{/* if there is a button in form, it will close the modal */}
-						<button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
-							✕
-						</button>
-					</form>
-					<Tabs defaultValue='login' className='w-[400px]'>
-						<TabsList className='grid w-full grid-cols-2'>
-							<TabsTrigger value='login'>Login</TabsTrigger>
-							<TabsTrigger value='register'>Register</TabsTrigger>
-						</TabsList>
-						<TabsContent value='login'>
-							<LoginForm />
-						</TabsContent>
-						<TabsContent value='register'>
-							<SignUp />
-						</TabsContent>
-					</Tabs>
-				</div>
-			</dialog>
+			
 			<main className='z-0'>
 				<Outlet />
 			</main>

@@ -16,6 +16,7 @@ export interface TVehicle {
         seating_capacity: number;
         color: string;
         features: string;
+        image_url: string;
 	}; // imageUrl: string;
 }
 export const vehicleApi = createApi({

@@ -1,4 +1,6 @@
+import { useGetVehiclesQuery } from "@/features/vehicles/vehicleApi";
 import {  ArrowRight, CalendarDays, CarFront, DollarSign, Headset } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 function LandingPage() {
@@ -30,11 +32,12 @@ function HeroSection() {
       <span className="text-white">RENT</span> <span className="text-blue-800">YOUR RIDE</span> <span className="text-white">WITH EASE</span>
     </h1>
     <p className="text-lg md:text-3xl mb-8">Find the perfect four-wheeler or two-wheeler for your needs. Quick, easy, and reliable.</p>
-    <div className="flex space-x-4">
-      <button className="bg-primary  text-primary-foreground py-2 px-4 rounded-lg hover:bg-primary/80">Browse Vehicles</button>
-      <button className="text-white py-2 px-4 rounded-lg border border-white hover:bg-white hover:text-black">
-        Learn More
-      </button>
+    <div className="flex space-x-4 text-2xl">
+      {/* <button className="bg-primary  text-primary-foreground py-2 px-4 rounded-lg hover:bg-primary/80">Browse Vehicles</button> */}
+      <Link to={'/vehicles'} className="bg-primary  text-primary-foreground py-2 px-4 rounded-lg hover:bg-primary/80">Browse Vehicles</Link>
+      <Link to={'/about'}className="text-white py-2 px-4 rounded-lg border border-white hover:bg-white hover:text-black">
+      Learn More</Link>
+     
     </div>
   </div>
 </div>
@@ -48,9 +51,9 @@ function WhyChoseUs() {
       <div>
         <h2 className="text-4xl font-bold mb-4">Why Choose RentMyRide?</h2>
         <p className="text-lg mb-6">Discover The Benefits Of Renting With Us. Enjoy Competitive Rates, A Wide Selection Of Vehicles, And 24/7 Support.</p>
-        <button className="bg-white text-blue-900 font-semibold py-2 px-4 rounded-lg flex items-center ">
+        <Link to='/about'  className="bg-white text-blue-900 font-semibold py-2 px-4 rounded-lg flex items-center w-fit ">
                  <p>Learn More</p> <ArrowRight  className="mb-2 " />
-        </button>
+        </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-blue-800 p-4 rounded-lg">
@@ -79,28 +82,31 @@ function WhyChoseUs() {
 }
 
 function FeaturedVehicles() {
-  const vehicles = [
-    { image: "https://placehold.co/150x150?text=Image", model: "2024 Toyota Camry", capacity: 5, fuel: "30 MPG" },
-    { image: "https://placehold.co/150x150?text=Image", model: "2023 Ford F-150", capacity: 5, fuel: "20 MPG" },
-    { image: "https://placehold.co/150x150?text=Image", model: "2022 Harley-Davidson Street Glide", capacity: 2, fuel: "40 MPG" },
-  ];
+  const {
+		data: dBvehicles,
+		isLoading,
+	
+	} = useGetVehiclesQuery();
+
+
 
   return (
     <section className="featured-vehicles py-12 text-center">
     <h2 className="text-3xl font-bold mb-8">Featured Vehicles</h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 " >
-      {vehicles.map((vehicle, index) => (
-        <div key={index} className="relative group">
-          <img src={vehicle.image} alt={`Vehicle ${index + 1}`} className="w-full h-auto rounded-lg shadow-lg" />
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="text-primary text font-bold text-4xl">
-              <h3>Model: {vehicle.model}</h3>
-              <p>Capacity: {vehicle.capacity}</p>
-              <p>Fuel: {vehicle.fuel}</p>
-            </div>
-          </div>
-        </div>
-      ))}
+      {isLoading && <p>Loading...</p>}
+    {dBvehicles?.slice(0, 3).map((vehicle, index) => (
+  <div key={index} className="relative group">
+    <img src={vehicle.vehicleSpecs.image_url} alt={`Vehicle ${index + 1}`} className="w-full h-auto rounded-lg shadow-lg" />
+    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="text-primary text font-bold text-4xl">
+        <h3>Model: {vehicle.vehicleSpecs.model}</h3>
+        <p>Capacity: {vehicle.vehicleSpecs.seating_capacity}</p>
+        <p>Fuel: {vehicle.vehicleSpecs.fuel_type}</p>
+      </div>
+    </div>
+  </div>
+))}
     </div>
   </section>
 
@@ -114,7 +120,7 @@ function CallToAction() {
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-center gap-8">
        
         <h2 className="text-3xl font-bold mb-8">Ready to Hit the Road?</h2>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Book Your Dream Vehicle Now!</button>
+        <Link to={'/vehicles'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Book Your Dream Vehicle Now!</Link>
   
       </div>
        
@@ -125,14 +131,14 @@ function CallToAction() {
 function Testimonials() {
   const testimonials = [
     {
-      image: "path/to/profile1.jpg",
+      image: "https://placehold.co/400?text=JD",
       name: "John Doe",
-      quote: "Renting a car from [Company Name] was a breeze! The selection of vehicles was fantastic, and the booking process was incredibly easy. I will definitely be using them again for my next trip.",
+      quote: "Renting a car from RentMyRide was a breeze! The selection of vehicles was fantastic, and the booking process was incredibly easy. I will definitely be using them again for my next trip.",
     },
     {
-      image: "path/to/profile2.jpg",
+      image: "https://placehold.co/400?text=JS",
       name: "Jane Smith",
-      quote: "The customer service at [Company Name] is top-notch. They were very helpful in answering all my questions and ensuring I had a smooth rental experience. Highly recommend!",
+      quote: "The customer service at  RentMyRide is top-notch. They were very helpful in answering all my questions and ensuring I had a smooth rental experience. Highly recommend!",
     },
   ];
 

@@ -104,7 +104,7 @@ const Bookings = () => {
 		const key = 'pk_test_51PYWB7AfWaTAZW5WwrIU7cBSiAkB9EM4WS29c76ZfyHDHTL94jNC3IDRSsHfwxB72aQYW37a4abh00yYCxAtRmdB00751Xr5xF'
 
 		if (!key) {
-			console.error("Stripe publishable key is not defined");
+			console.error("Stripe publishable key  not defined");
 			return;
 		}
 		if (!startDate || !endDate || !locationId || !totalCost) {

@@ -1,5 +1,6 @@
 
 import { RootState } from "@/app/store";
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TVehicleSpecs {
@@ -17,7 +18,7 @@ export interface TVehicleSpecs {
 
 export const vehicleSpecsApi = createApi({
   reducerPath: 'vehicleSpecsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/vehiclespecs`,
+  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/api/vehiclespecs`,
     prepareHeaders:(headers,{getState})=>{
       const token = (getState() as RootState).session.token
       if(token){

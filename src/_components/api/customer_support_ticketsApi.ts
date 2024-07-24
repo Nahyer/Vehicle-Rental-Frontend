@@ -1,5 +1,6 @@
 
 import { RootState } from "@/app/store";
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TCustomerSupportTickets {
@@ -16,7 +17,7 @@ export interface TCustomerSupportTickets {
 
 export const customerSupportTicketsApi = createApi({
   reducerPath: 'customerSupportTicketsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/tickets`,
+  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/api/tickets`,
     prepareHeaders:(headers,{getState})=>{
       const token = (getState() as RootState).session.token
       token && headers.set('authorization', `${token}`)

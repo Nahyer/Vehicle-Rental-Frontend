@@ -1,4 +1,5 @@
 import { RootState } from "@/app/store";
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TBooking {
@@ -45,7 +46,7 @@ export interface Booking {
 
 export const bookingsApi = createApi({
     reducerPath: 'bookingsAPI',
-    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/bookings`,
+    baseQuery: fetchBaseQuery({baseUrl: `${baseUrl}/api/bookings`,
         prepareHeaders:(headers,{getState})=>{
             const token = (getState() as RootState).session.token
             token && headers.set('authorization', token)

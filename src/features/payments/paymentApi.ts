@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi,fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Payment {
@@ -23,7 +24,7 @@ export interface Tsession{
 
 export const paymentApi = createApi({
     reducerPath: 'paymentAPI',
-    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/payments`}),
+    baseQuery: fetchBaseQuery({baseUrl: `${baseUrl}/api/payments`}),
     endpoints: (builder) => ({
         getPayments: builder.query<Payment[], void>({
             query: () => ''

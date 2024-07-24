@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface LUser {
@@ -7,7 +8,7 @@ export interface LUser {
 
 export const loginApi = createApi({
     reducerPath: "loginAPI",
-    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/auth`}),
+    baseQuery: fetchBaseQuery({baseUrl: `${baseUrl}/api/auth`}),
     endpoints: (builder) => ({
         loginUser: builder.mutation<LUser,Partial<LUser>>({
             query: (user)=>({

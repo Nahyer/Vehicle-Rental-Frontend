@@ -1,4 +1,5 @@
 import { RootState } from '@/app/store';
+import { baseUrl } from '@/utils/baseUrl';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export interface TVehicle {
@@ -21,7 +22,7 @@ export interface TVehicle {
 }
 export const vehicleApi = createApi({
     reducerPath: 'vehicleApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/vehicles`,
+    baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/api/vehicles`,
     prepareHeaders:(headers,{getState})=>{
         const token = (getState() as RootState).session.token
         token && headers.set('authorization', token)

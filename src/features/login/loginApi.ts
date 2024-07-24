@@ -7,7 +7,7 @@ export interface LUser {
 
 export const loginApi = createApi({
     reducerPath: "loginAPI",
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/auth'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/auth`}),
     endpoints: (builder) => ({
         loginUser: builder.mutation<LUser,Partial<LUser>>({
             query: (user)=>({

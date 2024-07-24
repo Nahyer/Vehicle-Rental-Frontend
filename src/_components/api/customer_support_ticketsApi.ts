@@ -16,7 +16,7 @@ export interface TCustomerSupportTickets {
 
 export const customerSupportTicketsApi = createApi({
   reducerPath: 'customerSupportTicketsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/tickets',
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/tickets`,
     prepareHeaders:(headers,{getState})=>{
       const token = (getState() as RootState).session.token
       token && headers.set('authorization', `${token}`)

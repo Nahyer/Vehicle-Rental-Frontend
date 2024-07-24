@@ -16,7 +16,7 @@ export interface TUsers {
 
 export const usersApi = createApi({
   reducerPath: 'usersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/users',
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/users`,
     prepareHeaders:(headers,{getState})=>{
         const token = (getState() as RootState).session.token
         token && headers.set('authorization', token)

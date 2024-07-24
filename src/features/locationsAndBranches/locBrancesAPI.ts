@@ -10,7 +10,7 @@ export interface Tlocation{
 
 export const locBranchesApi = createApi({
     reducerPath: 'locBranchesAPI',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/branchlocations',
+    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/branchlocations`,
     prepareHeaders:(headers,{getState})=>{
         const token = (getState() as RootState).session.token
         token && headers.set('authorization', token)

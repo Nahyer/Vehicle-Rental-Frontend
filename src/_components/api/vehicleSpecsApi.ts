@@ -17,7 +17,7 @@ export interface TVehicleSpecs {
 
 export const vehicleSpecsApi = createApi({
   reducerPath: 'vehicleSpecsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehiclespecs',
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/vehiclespecs`,
     prepareHeaders:(headers,{getState})=>{
       const token = (getState() as RootState).session.token
       if(token){

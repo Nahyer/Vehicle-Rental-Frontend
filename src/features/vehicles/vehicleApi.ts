@@ -21,7 +21,7 @@ export interface TVehicle {
 }
 export const vehicleApi = createApi({
     reducerPath: 'vehicleApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/vehicles',
+    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/vehicles`,
     prepareHeaders:(headers,{getState})=>{
         const token = (getState() as RootState).session.token
         token && headers.set('authorization', token)

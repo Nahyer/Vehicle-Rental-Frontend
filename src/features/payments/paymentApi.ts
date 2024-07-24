@@ -23,7 +23,7 @@ export interface Tsession{
 
 export const paymentApi = createApi({
     reducerPath: 'paymentAPI',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/payments'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/payments`}),
     endpoints: (builder) => ({
         getPayments: builder.query<Payment[], void>({
             query: () => ''

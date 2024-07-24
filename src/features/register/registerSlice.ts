@@ -11,7 +11,7 @@ export interface User {
 
 export const registerApi = createApi({
     reducerPath: 'registerApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/auth'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${import.meta.env.VITE_BACKEND_BASEURL}/api/auth`}),
     endpoints: (builder) => ({
         registerUser: builder.mutation<string,Partial<User>>({
             query: (user)=>({

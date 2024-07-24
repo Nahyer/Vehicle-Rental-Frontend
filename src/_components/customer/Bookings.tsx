@@ -35,6 +35,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { ButtonLoading } from "@/features/login/LoginForm";
 
 const BookingSchema = yup.object().shape({
 	user_id: yup.number().required("User ID is required"),
@@ -47,7 +48,7 @@ const BookingSchema = yup.object().shape({
 
 const Bookings = () => {
 	const { user } = useSelector((state: RootState) => state.session);
-	const [checkOut] = paymentApi.useCheckOutMutation();
+	const [checkOut,{isLoading:isChecking}] = paymentApi.useCheckOutMutation();
 	const { data: locations, isLoading } = useGetLocationsQuery();
 
 	const { vehicleId } = useParams();
@@ -68,7 +69,7 @@ const Bookings = () => {
 		Number(vehicleId)
 	);
 
-	const [addBooking, { isSuccess: BookingSuccesful }] =
+	const [addBooking, { isSuccess: BookingSuccesful,isLoading:Isbooking }] =
 		bookingsApi.useAddBookingMutation();
 
 	const [startDate, setStartDate] = useState<Date | undefined>(undefined);
@@ -371,9 +372,11 @@ const Bookings = () => {
 									<div className='font-medium'>Total Cost</div>
 									<div>${totalCost}</div>
 								</div>
-								<Button type='submit' className='w-full'>
+
+								{ Isbooking || isChecking ? <ButtonLoading name="Checking out..."/> : <Button type='submit' className='w-full'>
 									Confirm Booking
-								</Button>
+								</Button>}
+								
 							</div>
 						</div>
 					</div>

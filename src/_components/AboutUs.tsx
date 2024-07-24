@@ -7,14 +7,16 @@ import { CheckIcon, MailOpenIcon, MapPinIcon, PhoneIcon } from "lucide-react"
 const AboutUs = () => {
   return (
     <div className="flex flex-col min-h-[100dvh]">
-    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[url('/hero-image.jpg')] bg-cover bg-center">
-      <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center text-primary-foreground">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter">
-          Experience the Thrill of Luxury
-        </h1>
-        <p className="max-w-[700px] text-xl md:text-2xl mt-4">
-          Discover the ultimate in automotive indulgence with our premium vehicle rental service.
-        </p>
+    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[url('https://res.cloudinary.com/dejyhjbwg/image/upload/v1721817244/images/ldgdmv1bcswxtpqpgnlb.jpg')] bg-cover bg-center ">
+      <div className=" bg-black bg-opacity-10">
+        <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center text-primary-foreground  ">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter">
+            Experience the Thrill of Luxury
+          </h1>
+          <p className="max-w-[700px] text-xl md:text-2xl mt-4">
+            Discover the ultimate in automotive indulgence with our premium vehicle rental service.
+          </p>
+        </div>
       </div>
     </section>
     <section className="w-full py-12 md:py-24 lg:py-32">

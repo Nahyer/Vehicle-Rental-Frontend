@@ -24,76 +24,21 @@ import {
 const ManageUsers = () => {
   
 
-  // const [search, setSearch] = useState("")
 
-  // const [roleFilter, setRoleFilter] = useState("")
-
-  // const [selectedUsers, setSelectedUsers] = useState<number[]>([])
 
  
 
   // const [editUser, setEditUser] = useState<Partial<TUsers>>({})
   // const [addUser, setAddUser] = useState<Partial<TUsers>>({})
   const { data: users, error} = useGetusersQuery()
-  // const [deleteUser] = useDeleteusersMutation()
-  // const [updateUser] = useUpdateusersMutation()
-  // const [addUsers] = useAddusersMutation()
-
-  // const filteredUsers = useMemo(() => {
-  //   if (!users) {
-  //     return []
-  //   }
-  //   return users
-  //     .filter(
-  //       (user) =>
-  //         user.full_name.toLowerCase().includes(search.toLowerCase()) ||
-  //         user.email.toLowerCase().includes(search.toLowerCase())
-  //     )
-  //     .filter((user) => (roleFilter ? user.role === roleFilter : true))
-  //     .sort((a, b) => {
-  //       if (sort.order === "asc") {
-  //         return a[sort.key] > b[sort.key] ? 1 : -1
-  //       } else {
-  //         return a[sort.key] < b[sort.key] ? 1 : -1
-  //       }
-  //     })
-  // }, [users, search, roleFilter, sort])
+ 
   if (error) {
   console.log("🚀 ~ ManageUsers ~ error:", error)
   }
 
-  // const handleDelete = async () => {
-  //   await deleteUser(selectedUsers)
-  //   setSelectedUsers([])
-  //   setShowDeleteModal(false)
-  //   refetch()
-  // }
-  // const handleUpdate = async (data: Partial<TUsers>) => {
-  //   await updateUser(data)
-  //   setShowEditModal(false)
-  //   refetch()
-  // }
 
 
-  // const handleAdd = async (data: Partial<TUsers>) => {
-  //   try {
-      
-  //     await addUsers(data)
-  
-  //     refetch()
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-
-  // const handleSelectAll = (checked: boolean) => {
-  //   if (checked) {
-  //     setSelectedUsers(users?.map((user) => user.user_id) || [])
-  //   } else {
-  //     setSelectedUsers([])
-  //   }
-  // }
+ 
   return (
     <div>
      
@@ -110,40 +55,8 @@ export default ManageUsers
 
 
  function Component({customers}: {customers: TUsers[]}) {
-  // const [users] = useState([
-  //   {
-  //     id: 1,
-  //     name: "John Doe",
-  //     email: "john@example.com",
-  //     phone: "555-1234",
-  //     rentals: 5 ,
-  //     active: true,
-  //   },
-    
-  // ])
-  // const [users, setUsers] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Admin User",
-  //     email: "admin@example.com",
-  //     role: "admin",
-  //     active: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Regular User",
-  //     email: "user@example.com",
-  //     role: "user",
-  //     active: true,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Deactivated User",
-  //     email: "deactivated@example.com",
-  //     role: "user",
-  //     active: false,
-  //   },
-  // ])
+  
+ 
 
   const [searchTerm, setSearchTerm] = useState("")
   const [sortColumn, setSortColumn] = useState("name")
@@ -165,22 +78,7 @@ export default ManageUsers
       setSortDirection("asc")
     }
   }
-  // const [newUser, setNewUser] = useState({
-  //   name: "",
-  //   email: "",
-  //   role: "user",
-  //   active: true,
-  // })
-
-  // const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const [currentUserDetails, setCurrentUserDetails] = useState(null)
-  // const userDetails = {
-  //   name: "John Doe",
-  //   email: "john.doe@example.com",
-  //   role: "User",
-  //   // Add other necessary details
-  // };
-
+ 
 
  
   return (

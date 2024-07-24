@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useSelector } from "react-redux"
 import { RootState } from "@/app/store"
 import { useAddcustomerSupportTicketsMutation } from "./api/customer_support_ticketsApi";
+import { toast } from "@/components/ui/use-toast";
+import { ButtonLoading } from "@/features/login/LoginForm";
 
 const categories = [
   { value: "vehicle_issues", label: "Vehicle Issues" },
@@ -27,7 +29,7 @@ const TicxketShema = yup.object().shape({
 })
 
 const Support = () => {
-  const [AddTicket] = useAddcustomerSupportTicketsMutation()
+  const [AddTicket,{isLoading}] = useAddcustomerSupportTicketsMutation()
   const {user}= useSelector((state:RootState) => state.session)
   const form = useForm<yup.InferType<typeof TicxketShema>>({
     resolver: yupResolver(TicxketShema),
@@ -41,13 +43,22 @@ const Support = () => {
  
   const handleNewTicketSubmit = async(ticket:yup.InferType<typeof TicxketShema>) => {
     ticket.user_id = user?.user_id
-    console.log("🚀 ~ handleNewTicketSubmit ~ ticket:", ticket)
     
     try{
      const res=  await AddTicket(ticket)
-     console.log(res)
+     form.reset()
+      if(res.data){
+
+        toast({
+          description: "Ticket created successfully",
+        })
+      }
     }catch(error){
-      console.log(error)
+      toast({
+        description: "Something wrong happened",
+        variant: "destructive"
+      })
+     console.log(error) 
     }
     
   }
@@ -111,7 +122,14 @@ const Support = () => {
             </FormItem>
           )}
         />
-          <Button type="submit">Create Ticket</Button>
+        {
+          isLoading ? (
+            <ButtonLoading name={'pleasewait'}/>
+          ) : (
+
+            <Button type="submit">Create Ticket</Button>
+          )
+        }
         </form>
 
         </Form>

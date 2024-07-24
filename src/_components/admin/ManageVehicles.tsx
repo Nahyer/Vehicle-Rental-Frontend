@@ -117,7 +117,7 @@ const colors = [
 ];
 
 const ManageVehicles = () => {
-  const { data:vehicles, isLoading:loadingVehicles } = useGetVehiclesQuery();
+  const { data:vehicles, isLoading:loadingVehicles, refetch} = useGetVehiclesQuery();
   const {toast} = useToast();
     
 	const [addVehicleSpecs,{ error:err,isLoading}] = useAddvehicleSpecsMutation();
@@ -142,20 +142,18 @@ const ManageVehicles = () => {
 
 	const createVehicle = async (data: yup.InferType<typeof schema> )=> {
     try {
-      console.log("🚀 ~ createVehicle ~ data:", data)
-	  
-   
-      console.log("🚀 ~ createVehicle ~ data.image_url:", data.image_url.name)
+    
       const imgUrl = await uploadFile(data.image_url);
-	  
 	  console.log("🚀 ~ createVehicle ~ imgUrl:", imgUrl)
 
 	if (imgUrl) {
-		data.image_url = imgUrl;
-		console.log("🚀 ~ createVehicle ~ imgUrl:", imgUrl);
-	
+		data.image_url = imgUrl;	
 		const res = await addVehicleSpecs(data);
-		console.log("🚀 ~ createVehicle ~ res:", res);
+		toast({
+			description: `${res.data}`,
+		});
+		form.reset();
+		refetch();
 	} else {
 		console.log('Something went wrong');
 	}
@@ -195,17 +193,6 @@ const ManageVehicles = () => {
 		}
 	};
 	
-	// const getSignatureForUpload = async (folder: string) => {
-	// 	try {
-	// 		const res = await axios.post(
-	// 			`${import.meta.env.VITE_BACKEND_BASEURL}/api/upload`,
-	// 			{ folder }
-	// 		);
-	// 		return res.data;
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
 
   
 
@@ -518,16 +505,11 @@ const ManageVehicles = () => {
 
 							<div className='col-span-3'>
 								{isLoading ? (
-									<div className="w-full"> <ButtonLoading name='Please wait'  /></div>
+									<ButtonLoading name='Please wait'  />
 								) : (
 									<Button
 										type='submit'
 										className='w-full'
-										onClick={() => {
-											toast({
-												description: "Your message has been sent.",
-											});
-										}}
 									>
 										Submit
 									</Button>

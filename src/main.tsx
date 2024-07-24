@@ -5,7 +5,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ErrorPage from './ErrorPage.tsx'
+
 import { persistor, store } from './app/store.ts'
 import RegisterPage from './features/register/RegisterPage.tsx'
 import PrivateRoutes from './_components/PrivateRoutes.tsx'
@@ -32,6 +32,8 @@ import BranchLocations from './_components/admin/BranchLocations.tsx'
 import ManageTickets from './_components/admin/ManageTickets.tsx'
 import Layout from './app/Lyout.tsx'
 import AboutUs from './_components/AboutUs.tsx'
+import Wrong from './app/Wrong.tsx'
+import NotFoundPage from './features/NotFoundPage.tsx'
 
 
 
@@ -49,47 +51,47 @@ const router = createBrowserRouter([
             {
               path: '/',
               element: <App />,
-              errorElement: <ErrorPage />
+              errorElement: <Wrong />
             },
             // {
             //   path: 'login',
             //   element: <LoginModal/>,
-            //   errorElement: <ErrorPage />
+            //   errorElement: <Wrong />
             // },
             {
               path:'register',
               element: <RegisterPage/>,
-              errorElement: <ErrorPage />
+              errorElement: <Wrong />
             },
             {
               path: '*',
-              element: <ErrorPage />,
-              errorElement: <ErrorPage />
+              element: <Wrong />,
+              errorElement: <Wrong />
             },
             
            
             {
               path:'models/:vehicleId',
               element:<PrivateRoutes><VehicleSpecs/></PrivateRoutes>,
-              errorElement: <ErrorPage />
+              errorElement: <Wrong />
           
             },
             {
               //search
               path:'vehicles',
               element:<Search/>,
-              errorElement: <ErrorPage />,
+              errorElement: <Wrong />,
             },
             {
               //bookings
               path:'vehicles/booking/:vehicleId',
               element:<PrivateRoutes><Bookings/></PrivateRoutes>,
-              errorElement: <ErrorPage />
+              errorElement: <Wrong />
             },
             {
               path: 'about',
               element: <AboutUs />,
-              errorElement: <ErrorPage />
+              errorElement: <Wrong />
           }
          
            
@@ -98,46 +100,50 @@ const router = createBrowserRouter([
         
         ]
       },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
       { path: 'customer/dashboard',
         element:<UserDashboard />,
-        errorElement: <ErrorPage />,
+        errorElement: <Wrong />,
         children:[
           {
             path: 'overview',
             element:<Overview />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'profile',
             element:<Profile />,
-            errorElement: <ErrorPage />,
+            errorElement: <Wrong />,
             children:[
               {
                 path: 'edit/:pid',
                 element:<EditProfile />,
-                errorElement: <ErrorPage />
+                errorElement: <Wrong />
               }
             ]
           },
           {
             path:'tickets',
             element:<Support />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'bookings',
             element:<BookingHistory />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'booking-successful',
             element:<BookingSuccesful />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'booking-cancelled',
             element:<BookingCancelled />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'settings',
@@ -146,15 +152,15 @@ const router = createBrowserRouter([
               {
                 path: 'edit/',
                 element:<EditProfile />,
-                errorElement: <ErrorPage />
+                errorElement: <Wrong />
               },
               {
                 path:'support',
                 element:<PrivateRoutes><Support/></PrivateRoutes>,
-                errorElement: <ErrorPage />
+                errorElement: <Wrong />
               },
             ],
-            errorElement: <ErrorPage />,
+            errorElement: <Wrong />,
           }
         ]
       },
@@ -165,35 +171,35 @@ const router = createBrowserRouter([
           {
             path: 'dashboard',
             element:<AdminOverview />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path:'manage-vehicles',
             element:<ManageVehicles />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path:'reports',
             element:<Reports />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'manage-customers',
             element:<ManageUsers />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'branch-locations',
             element:<BranchLocations />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           },
           {
             path: 'tickets',
             element:<ManageTickets />,
-            errorElement: <ErrorPage />
+            errorElement: <Wrong />
           }
         ],
-        errorElement: <ErrorPage />
+        errorElement: <Wrong />
       }
       
     ]

@@ -88,29 +88,12 @@ const {data:userfethed, isLoading:fetUser, refetch} = useGetUsersByIdQuery(user.
 
 	return (
 		<Card x-chunk="dashboard-04-chunk-4" className="w-max">
-			{/* <CardHeader>
-				<CardTitle>{userfethed?.full_name}</CardTitle>
-				<CardDescription>
-					<span>{user?.username}</span>
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<div className="flex gap-2 items-center">
-					<Mail width={20} height={20} />
-					<p>{userfethed?.email}</p>
-				</div>
-				<div className="flex gap-2 items-center">
-					<PhoneCall width={15} height={20} />
-					<p>{userfethed?.contact_phone}</p>
-				</div>
-				<div className="flex gap-2 items-center">
-					<NotebookTabs width={20} height={20} />
-					<p>{userfethed?.address}</p>
-				</div>
-			</CardContent> */}
+			
 			{fetUser ? (
 				<div className="flex justify-center items-center h-32 my-3">
-					<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+					<div className="w-full">
+						<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+					</div>
 					</div>
 					) : (
 					<>

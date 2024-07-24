@@ -154,11 +154,7 @@ const Nav = () => {
 			</main>
 
 			<Footer />
-			{/* <div className='navbar bg-slate-50'>
-				<div className='flex-none'>
-					
-				</div>
-			</div> */}
+			
 		</>
 	);
 };

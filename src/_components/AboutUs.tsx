@@ -110,7 +110,7 @@ const AboutUs = () => {
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="flex flex-col items-center">
                 <img
-                  src="/placeholder.svg"
+                  src="https://res.cloudinary.com/dejyhjbwg/image/upload/v1721897620/images/inxs60hvqt6sxstaixfs.jpg"
                   width="300"
                   height="200"
                   alt="Lamborghini Aventador"
@@ -120,13 +120,13 @@ const AboutUs = () => {
                 <p className="text-muted-foreground">Top Speed: 217 mph</p>
               </div>
               <div className="flex flex-col items-center">
-                <img src="/placeholder.svg" width="300" height="200" alt="Ferrari 488 GTB" className="rounded-lg" />
+                <img src="https://res.cloudinary.com/dejyhjbwg/image/upload/v1721897620/images/ng7hwiiqql5npgowm0vg.jpg" width="300" height="200" alt="Ferrari 488 GTB" className="rounded-lg" />
                 <h3 className="mt-2 text-lg font-semibold">Ferrari 488 GTB</h3>
                 <p className="text-muted-foreground">Top Speed: 205 mph</p>
               </div>
               <div className="flex flex-col items-center">
                 <img
-                  src="/placeholder.svg"
+                  src="https://res.cloudinary.com/dejyhjbwg/image/upload/v1721898029/images/sutln7wdd4sinevzi5k8.jpg"
                   width="300"
                   height="200"
                   alt="Porsche 911 Turbo S"
@@ -136,7 +136,7 @@ const AboutUs = () => {
                 <p className="text-muted-foreground">Top Speed: 205 mph</p>
               </div>
               <div className="flex flex-col items-center">
-                <img src="/placeholder.svg" width="300" height="200" alt="McLaren 720S" className="rounded-lg" />
+                <img src="https://res.cloudinary.com/dejyhjbwg/image/upload/v1721898029/images/p65bpxfiqcwa4u2e9spd.webp" width="300" height="200" alt="McLaren 720S" className="rounded-lg" />
                 <h3 className="mt-2 text-lg font-semibold">McLaren 720S</h3>
                 <p className="text-muted-foreground">Top Speed: 212 mph</p>
               </div>

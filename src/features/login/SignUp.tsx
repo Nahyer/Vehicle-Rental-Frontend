@@ -47,13 +47,24 @@ const SignUp = () => {
         try {
             console.log(user)
             const res = await registerUser(user)
-            if(res.data)toast({description: "Registration successful. Loging you in..."})
+            if (res.error) {
+                toast({
+                    variant:'destructive',
+                    description: 'An error occurred. Please try again',
+                    
+                })
+              console.log(res.error)
+            }
+            if(res.data)
+            {
+
+                toast({description: "Registration successful. Loging you in..."})
             //login the user after registration
         
             const {username,password} = user
             const lUser:FormValues=
              {username,password}
-
+    
             const res2 = await loginUser(lUser)
             if (res2.data) {
                 toast({description: 'logged in successfully'})
@@ -64,11 +75,11 @@ const SignUp = () => {
             if (res2.error) {
               console.log(res2.error)
             }
-           
-            if (res.error) {
-              console.log(res.error)
+
             }
+                
           } catch (err) {
+           
             console.error(err)
           }
     };

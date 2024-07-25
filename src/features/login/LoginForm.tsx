@@ -23,6 +23,7 @@ export interface FormValues {
 	password: string;
 };
 function LoginForm() {
+	const { toast } = useToast();
 	const [loginUser, { data, error, isLoading }] = useLoginUserMutation();
 	const {
 		register,
@@ -31,7 +32,6 @@ function LoginForm() {
 	} = useForm<FormValues>();
 
 	const dispatch = useDispatch();
-	const {toast} = useToast()
 
 	const onsubmit = async (creds: FormValues) => {
 		console.log(creds);
@@ -44,6 +44,10 @@ function LoginForm() {
 			})
 		}
 		if (res.data) {
+			toast({
+				description: "Login successful"	
+			})
+
 			dispatch(logSession(res.data));
 		}
 	};

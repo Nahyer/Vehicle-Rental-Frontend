@@ -113,7 +113,7 @@ const Bookings = () => {
 		}
 
 		data.total_amount = totalCost as number;
-		console.log(data);
+		
 
 
 

@@ -1,4 +1,5 @@
 
+import { baseUrl } from "@/utils/baseUrl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface TPayments {
@@ -13,7 +14,7 @@ export interface TPayments {
 
 export const paymentsApi = createApi({
   reducerPath: 'paymentsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/payments' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/api/payments` }),
   endpoints: (builder) => ({
     getpayments: builder.query<TPayments[], void>({
       query: () => ''

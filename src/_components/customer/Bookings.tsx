@@ -118,11 +118,10 @@ const Bookings = () => {
 
 
 		const res = await addBooking(data);
-		if (res.error) {
-			toast({description:"An error occured while booking"});
-			console.log(res);
-		}
-		if (BookingSuccesful) {
+		
+		if(res.data)
+		{
+			toast({description:"Booking was successful"});
 			console.log(res.data);
 
 			const stripePromise = loadStripe(
@@ -144,7 +143,15 @@ const Bookings = () => {
 			const session = response.data;
 			await stripe?.redirectToCheckout({ sessionId: session.id });
 		}
+
+		if (res.error) {
+			toast({description:"An error occured while booking"});
+			console.log(res);
+		}
+			
+		
 	};
+
 	console.log(form.watch())
 
 	//Todo: Implement validation for dates

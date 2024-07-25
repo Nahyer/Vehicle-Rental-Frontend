@@ -69,7 +69,7 @@ const Bookings = () => {
 		Number(vehicleId)
 	);
 
-	const [addBooking, { isSuccess: BookingSuccesful,isLoading:Isbooking }] =
+	const [addBooking] =
 		bookingsApi.useAddBookingMutation();
 
 	const [startDate, setStartDate] = useState<Date | undefined>(undefined);
@@ -380,7 +380,7 @@ const Bookings = () => {
 									<div>${totalCost}</div>
 								</div>
 
-								{ Isbooking || isChecking ? <ButtonLoading name="Checking out..."/> : <Button type='submit' className='w-full'>
+								{ isChecking ? <ButtonLoading name="Checking out..."/> : <Button type='submit' className='w-full'>
 									Confirm Booking
 								</Button>}
 								

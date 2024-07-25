@@ -22,6 +22,7 @@ import {
 	DialogContent,
 	DialogTrigger
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 
 export interface AuthUser {
@@ -32,13 +33,19 @@ export interface AuthUser {
 	role: string;
 }
 const Nav = () => {
+	const { toast } = useToast();
 	const { user } = useSelector((state: RootState) => state.session);
 	
 		// const { full_name, role } = user as AuthUser;
 	
 
 	const dispatch = useDispatch();
-	const logout = () => dispatch(logoutSession());
+	const logout = () =>{
+		toast({
+			description: "Logout successful"
+		})
+		dispatch(logoutSession());
+	} 
 
 	return (
 		<>

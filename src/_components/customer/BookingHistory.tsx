@@ -108,55 +108,7 @@ const BookingHistory = () => {
             </TableBody>
           </Table>
         </div>
-        {/* <div className="flex items-center justify-between">
-          <Card>
-            <CardHeader>
-              <CardTitle>Vehicle Details</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              {bookings && (
-                <>
-                  <div className="grid gap-2">
-                    <Label>Manufacturer</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.manufacturer}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Model</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.model}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Year</Label>
-                    <div>{bookings..vehicle.vehicleSpecs.year}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Fuel Type</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.fuel_type}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Engine Capacity</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.engine_capacity}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Transmission</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.transmission}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Seating Capacity</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.seating_capacity}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Color</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.color}</div>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Features</Label>
-                    <div>{bookings.vehicles.vehicleSpecs.features}</div>
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </div> */}
+      
       </div>
     )
     };

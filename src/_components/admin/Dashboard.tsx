@@ -34,13 +34,21 @@ import logo from "../../assets/images/logo.svg";
 import { logoutSession } from "@/features/login/sessionSlice";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/app/store";
+import { useToast } from "@/components/ui/use-toast";
 
 
 const UserDashboard = () => {
+  const { toast } = useToast();
   const {user} = useSelector((state: RootState) => state.session);
   if (!user) return null;
   const dispatch = useDispatch();
-	const logout = () => dispatch(logoutSession());
+	const logout = () => {
+    
+    toast({
+      description: "Logout successful"
+    })
+    dispatch(logoutSession());
+  }
 	return (
 		<div>
 			 <div className="flex min-h-screen w-full flex-col bg-muted/40">

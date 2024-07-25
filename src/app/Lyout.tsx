@@ -16,8 +16,8 @@ import { Outlet } from "react-router-dom"
 const Lyout = () => {
   return (
     <div>
-        <div><Outlet/></div>
         <Toaster />
+        <div><Outlet/></div>
     </div>
   )
 }

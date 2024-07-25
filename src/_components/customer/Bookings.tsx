@@ -122,8 +122,6 @@ const Bookings = () => {
 		if(res.data)
 		{
 			toast({description:"Booking was successful"});
-			console.log(res.data);
-
 			const stripePromise = loadStripe(
 				key
 			);
@@ -136,8 +134,6 @@ const Bookings = () => {
 				bookingId: booking_id,
 				vehicleSpecs: `${vehicleSpecs?.manufacturer} ${vehicleSpecs?.model}`,
 			};
-
-			console.log(payment);
 			const response = await checkOut(payment);
 			console.log(response.data);
 			const session = response.data;
@@ -395,149 +391,3 @@ const Bookings = () => {
 
 export default Bookings;
 
-// <div className='bg-black text-white'>
-// 				<header className='flex justify-between items-center py-4 px-8'>
-// 					<h1 className='text-3xl font-bold'>Book Your Dream Car</h1>
-// 					{/* <Nav /> */}
-// 				</header>
-// 				<section className='py-8 px-8'>
-// 					<div className='flex items-center space-x-8'>
-// 						<img
-// 							src='path_to_large_image'
-// 							alt='Selected Vehicle'
-// 							className='w-96'
-// 						/>
-// 						<div>
-// 							<h2 className='text-2xl font-bold'>
-// 								Car Name: {vehicleSpecs?.manufacturer} {vehicleSpecs?.model}
-// 							</h2>
-// 							<p className='text-lg'>
-// 								Specifications: {vehicleSpecs?.features}
-// 							</p>
-// 							<p className='text-lg'>
-// 								Rental Rate: ${vehicle?.rental_rate} per day
-// 							</p>
-// 						</div>
-// 					</div>
-// 					<h2 className='text-2xl font-bold'>Booking Form</h2>
-// 					<form onSubmit={handleSubmit(Book)} className='mt-8'>
-// 						<div className='mt-4'>
-// 							<input
-// 								type='hidden'
-// 								className='border border-gray-300 rounded-md px-4 py-2'
-// 								id='user_id'
-// 								{...register("user_id")}
-// 							/>
-// 							{errors.user_id && (
-// 								<span className='text-red-500 text-xs'>
-// 									Username is required
-// 								</span>
-// 							)}
-// 							<input
-// 								type='hidden'
-// 								// value={(totalCost).toString()}
-// 								id='total_amount'
-// 								{...register("total_amount")}
-// 							/>
-// 							{errors.total_amount && (
-// 								<span className='text-red-500 text-xs'>
-// 									total_amount is required
-// 								</span>
-// 							)}
-// 							<input type='hidden' id='vehicelId' {...register("vehicle_id")} />
-// 							<label className='block'>Pick-Up Date:</label>
-// 							<input
-// 								type='date'
-// 								className='border border-gray-300 rounded-md px-4 py-2'
-// 								id='booking_date'
-// 								{...register("booking_date", { required: true })}
-// 								onChange={handleBookDateChange}
-// 							/>
-// 							{errors.booking_date && (
-// 								<span className='text-red-500 text-xs'>
-// 									Username is required
-// 								</span>
-// 							)}
-// 						</div>
-// 						<div className='mt-4'>
-// 							<label className='block'>Return Date:</label>
-// 							<input
-// 								type='date'
-// 								className='border border-gray-300 rounded-md px-4 py-2'
-// 								id='return_date'
-// 								{...register("return_date")}
-// 								onChange={handleReturnDateChange}
-// 							/>
-// 							{errors.return_date && (
-// 								<span className='text-red-500 text-xs'>
-// 									Username is required
-// 								</span>
-// 							)}
-// 						</div>
-// 						<div className='mt-4'>
-// 							<label className='block'>Pick-Up Location:</label>
-// 							<select
-// 								className='border border-gray-300 rounded-md px-4 py-2'
-// 								{...register("location_id")}
-// 								onChange={handleLocationChange}
-// 							>
-// 								{isLoading ? (
-// 									<option>Loading...</option>
-// 								) : (
-// 									locations?.map((location) => (
-// 										<option
-// 											key={location.location_id}
-// 											value={location.location_id}
-// 										>
-// 											{location.name}
-// 										</option>
-// 									))
-// 								)}
-// 							</select>
-// 						</div>
-// 						<div className='mt-4'>
-// 							<label className='block'>Total Cost:</label>
-// 							<span className='text-lg'>$ {calculateTotalCost()}</span>
-// 						</div>
-// 						<div className='mt-8'>
-// 							<h2 className='text-2xl font-bold'>Confirmation Section</h2>
-// 							<div className='mt-4'>
-// 								<h3 className='text-xl font-bold'>Summary:</h3>
-// 								<p className='text-lg'>
-// 									Selected Dates: $SELECTION_PLACEHOLDER$
-// 								</p>
-// 								<p className='text-lg'>Location: $SELECTION_PLACEHOLDER$</p>
-// 								<p className='text-lg'>Total Cost: ${calculateTotalCost()} </p>
-// 							</div>
-// 							{/* <div className="mt-4">
-//               <label className="flex items-center">
-//                 <input type="checkbox" className="mr-2" />
-//                 Terms and Conditions
-//               </label>
-//             </div> */}
-// 						</div>
-// 						<div className='mt-8'>
-// 							<button
-// 								type='submit'
-// 								className='bg-red-500 text-white py-2 px-4 rounded-md'
-// 							>
-// 								Confirm Booking
-// 							</button>
-// 							<button className='bg-blue-500 text-white py-2 px-4 rounded-md ml-4'>
-// 								Cancel
-// 							</button>
-// 						</div>
-// 					</form>
-// 				</section>
-
-// 				<div className='flex items-center justify-center mt-8'>
-// 					<img
-// 						src='chat_support_icon'
-// 						alt='Chat Support'
-// 						className='w-8 h-8 mr-2'
-// 					/>
-// 					<a href='/faq' className='text-blue-500'>
-// 						FAQ
-// 					</a>
-// 				</div>
-// 			</div>

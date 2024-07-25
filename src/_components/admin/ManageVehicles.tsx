@@ -180,7 +180,7 @@ const ManageVehicles = () => {
 	
 
 		try {
-			let cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+			let cloudName = 'dejyhjbwg';
 			let resourceType = "image";
 			let api = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
 

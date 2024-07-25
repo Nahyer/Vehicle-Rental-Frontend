@@ -5,9 +5,15 @@ import { useState, useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { Button } from "@/components/ui/button";
+import { loadStripe } from "@stripe/stripe-js";
+import { paymentApi } from "@/features/payments/paymentApi";
+import { useToast } from "@/components/ui/use-toast";
+
 
 
 const BookingHistory = () => {
+  const [checkOut] = paymentApi.useCheckOutMutation();
+  const {toast} = useToast();
 
     const {user}= useSelector((state:RootState)=>state.session)
     if (!user) {
@@ -20,6 +26,8 @@ const BookingHistory = () => {
     const [page] = useState(1)
   
     const filteredBookings = useMemo(() => {
+
+
       if (!bookings) {
         return [];
       }
@@ -41,6 +49,36 @@ const BookingHistory = () => {
         })
     }, [bookings, search, sort])
   
+    const checkOuto = async(b:any) => {
+      const key = 'pk_test_51PYWB7AfWaTAZW5WwrIU7cBSiAkB9EM4WS29c76ZfyHDHTL94jNC3IDRSsHfwxB72aQYW37a4abh00yYCxAtRmdB00751Xr5xF'
+
+        console.log(b)
+        try {
+          toast({description:"Booking was successful"});
+			const stripePromise = loadStripe(
+				key
+			);
+
+			const stripe = await stripePromise;
+			// const [{ booking_id }] = res.data || [];
+
+			const payment = {
+				amount: b.total_amount,
+				bookingId: b.booking_id,
+				vehicleSpecs: `${b.vehicles.vehicleSpecs.manufacturer} ${b.vehicles.vehicleSpecs.model}`,
+			};
+			const response = await checkOut(payment);
+			console.log(response.data);
+			const session = response.data;
+			await stripe?.redirectToCheckout({ sessionId: session.id });
+          
+        } catch (error) {
+          console.error(error)
+          
+        }
+
+
+    }
     const itemsPerPage = 10
     const currentItems = filteredBookings.slice((page - 1) * itemsPerPage, page * itemsPerPage)
     
@@ -105,9 +143,12 @@ const BookingHistory = () => {
                     <TableCell>{b.vehicles.vehicleSpecs.manufacturer} {b.vehicles.vehicleSpecs.model}</TableCell>
                     <TableCell>{b.vehicles.vehicleSpecs.model}</TableCell>
                     <TableCell>
-                    <Button variant={"outline"} size="sm" className="mr-2">
-                          Checkout
-                      </Button>
+                    {b.booking_status === "completed" ?
+                         null : <Button variant={"outline"} size="sm" className="mr-2" onClick={() => checkOuto(b)}>
+                         Checkout
+                     </Button>
+                    }
+                   
 
                     </TableCell>
                   </TableRow>

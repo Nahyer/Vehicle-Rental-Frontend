@@ -34,6 +34,7 @@ import Layout from './app/Lyout.tsx'
 import AboutUs from './_components/AboutUs.tsx'
 import Wrong from './app/Wrong.tsx'
 import NotFoundPage from './features/NotFoundPage.tsx'
+import FleetManagement from './_components/admin/FleetManagement.tsx'
 
 
 
@@ -196,6 +197,11 @@ const router = createBrowserRouter([
           {
             path: 'tickets',
             element:<ManageTickets />,
+            errorElement: <Wrong />
+          },
+          {
+            path: 'fleet-management',
+            element:<FleetManagement/>,
             errorElement: <Wrong />
           }
         ],

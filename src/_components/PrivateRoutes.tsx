@@ -1,13 +1,20 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
-import { Navigate } from "react-router-dom"
-
+import { useToast } from "@/components/ui/use-toast"
 
 
 const PrivateRoutes = ({children}:any) => {
   const{user:authuser} = useSelector((x: RootState) => x.session)
+  const {toast} = useToast()
+
   if (!authuser){
-    return <Navigate to="/"  />
+
+    toast({
+      description: "You need to be logged in to access this page",
+    })
+
+    return null
+   
   }
 
   return children

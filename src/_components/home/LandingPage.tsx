@@ -28,7 +28,7 @@ function HeroSection() {
   </video>
   <div className="absolute inset-0 bg-black opacity-50"></div>
   <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-    <h1 className="text-4xl md:text-9xl font-bold mb-4">
+    <h1 className="text-4xl md:text-8xl font-bold mb-4">
       <span className="text-white">RENT</span> <span className="text-blue-800">YOUR RIDE</span> <span className="text-white">WITH EASE</span>
     </h1>
     <p className="text-lg md:text-3xl mb-8">Find the perfect four-wheeler or two-wheeler for your needs. Quick, easy, and reliable.</p>
@@ -48,12 +48,14 @@ function WhyChoseUs() {
   return (
     <div className="bg-blue-900 text-white p-8">
     <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 ">
-      <div>
-        <h2 className="text-4xl font-bold mb-4">Why Choose RentMyRide?</h2>
-        <p className="text-lg mb-6">Discover The Benefits Of Renting With Us. Enjoy Competitive Rates, A Wide Selection Of Vehicles, And 24/7 Support.</p>
-        <Link to='/about'  className="bg-white text-blue-900 font-semibold py-2 px-4 rounded-lg flex items-center w-fit ">
-                 <p>Learn More</p> <ArrowRight  className="mb-2 " />
-        </Link>
+      <div className="grid">
+        <h2 className="text-5xl font-bold mb-4">Why Choose RentMyRide?</h2>
+        <p className="text-2xl mb-6">Discover The Benefits Of Renting With Us. Enjoy Competitive Rates, A Wide Selection Of Vehicles, And 24/7 Support.</p>
+        <div>
+          <Link to='/about'  className="bg-white text-blue-900 font-semibold py-2 px-4 rounded-lg flex items-center w-fit ">
+                   <p>Learn More<ArrowRight  className="mb-2 " /></p> 
+          </Link>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-blue-800 p-4 rounded-lg">
@@ -92,14 +94,14 @@ function FeaturedVehicles() {
 
   return (
     <section className="featured-vehicles py-12 text-center">
-    <h2 className="text-3xl font-bold mb-8">Featured Vehicles</h2>
+    <h2 className="text-5xl font-bold mb-8">Featured Vehicles</h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 " >
       {isLoading && <p>Loading...</p>}
     {dBvehicles?.slice(0, 3).map((vehicle, index) => (
   <div key={index} className="relative group">
     <img src={vehicle.vehicleSpecs.image_url} alt={`Vehicle ${index + 1}`} className="w-full h-auto rounded-lg shadow-lg" />
     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-      <div className="text-primary text font-bold text-4xl">
+      <div className="text-white text font-bold text-4xl">
         <h3>Model: {vehicle.vehicleSpecs.model}</h3>
         <p>Capacity: {vehicle.vehicleSpecs.seating_capacity}</p>
         <p>Fuel: {vehicle.vehicleSpecs.fuel_type}</p>
@@ -143,15 +145,15 @@ function Testimonials() {
   ];
 
   return (
-    <>
+
     <section className="testimonials py-12">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center mb-8">What Our Customers Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <h2 className="text-5xl font-bold text-center mb-8">What Our Customers Say</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {testimonials.map((testimonial) => (
             <div key={testimonial.name} className="testimonial rounded-md shadow-md p-4 flex flex-col items-center">
               <img src={testimonial.image} alt={testimonial.name} className="w-20 h-20 rounded-full mx-auto mb-4" />
-              <p className="text-gray-700 text-center">{testimonial.quote}</p>
+              <p className="text-gray-700 text-center text-2xl">"{testimonial.quote}"</p>
               <p className="text-gray-500 text-center font-bold">{testimonial.name}</p>
             </div>
           ))}
@@ -159,7 +161,7 @@ function Testimonials() {
       </div>
     </section>
    
-    </>
+
   );
 }
 

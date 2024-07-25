@@ -156,47 +156,7 @@ export default ManageUsers
             </Table>
             
           </div>
-          {/* <div className="grid gap-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">admins</h2>
-             
-            </div>
-            <div className="grid gap-4">
-             
-              
-            </div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>
-                      <Badge variant={user.active ? "secondary" : "outline"} className="px-2 py-1 rounded-md">
-                        {user.active ? "Active" : "Deactivated"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="ghost" size="icon" onClick={() => handleUserDeactivate(user.id)}>
-                        <PowerOffIcon className="w-5 h-5" />
-                        <span className="sr-only">{user.active ? "Deactivate" : "Activate"}</span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div> */}
+         
         </div>
       </main>
     </div>
@@ -207,7 +167,7 @@ function Edit({data}:any) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="link">Open</Button>
+        <Button variant="link">Edit</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -240,60 +200,12 @@ function Edit({data}:any) {
   )
 }
 
-// function SheetDem({ mode = 'view', data }: { mode: string, data: any }) {
-//   const isEditMode = mode === 'edit';
-
-//   return (
-//     <Sheet>
-//       <SheetTrigger asChild>
-//         <Button variant="link">Open</Button>
-//       </SheetTrigger>
-//       <SheetContent>
-//         <SheetHeader>
-//           <SheetTitle>{isEditMode ? 'Edit profile' : 'View profile'}</SheetTitle>
-//           <SheetDescription>
-//             {isEditMode ? 'Make changes to your profile here. Click save when you\'re done.' : 'View the details of your profile.'}
-//           </SheetDescription>
-//         </SheetHeader>
-//         <div className="grid gap-4 py-4">
-//           <div className="grid grid-cols-4 items-center gap-4">
-//             <Label htmlFor="name" className="text-right">
-//               Name
-//             </Label>
-//             {isEditMode ? (
-//               <Input id="name" defaultValue={data.name} className="col-span-3" />
-//             ) : (
-//               <p className="col-span-3">{data.name}</p>
-//             )}
-//           </div>
-//           <div className="grid grid-cols-4 items-center gap-4">
-//             <Label htmlFor="username" className="text-right">
-//               Username
-//             </Label>
-//             {isEditMode ? (
-//               <Input id="username" defaultValue={data.username} className="col-span-3" />
-//             ) : (
-//               <p className="col-span-3">{data.username}</p>
-//             )}
-//           </div>
-//         </div>
-//         {isEditMode && (
-//           <SheetFooter>
-//             <SheetClose asChild>
-//               <Button type="submit">Save changes</Button>
-//             </SheetClose>
-//           </SheetFooter>
-//         )}
-//       </SheetContent>
-//     </Sheet>
-//   );
-// }
 
 function View({ data }: { data: any }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="link">Open</Button>
+        <Button variant="link">View</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
+import Payments from "./Payments"
 const Reports = () => {
   return (
     <Card>
@@ -26,7 +27,9 @@ const Reports = () => {
         </div>
       </div>
     </CardContent>
+    <Payments/>
   </Card>
+
   )
 }
 

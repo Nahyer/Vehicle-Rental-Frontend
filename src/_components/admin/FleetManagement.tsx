@@ -1,14 +1,12 @@
 import { useState, useMemo, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Pagination } from "@/components/ui/pagination";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
 
 interface Vehicle {
   vehicle_id: string;
@@ -64,8 +62,8 @@ const FleetManagement = () => {
   ]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<{ key: keyof Vehicle, order: "asc" | "desc" }>({ key: "vehicle_id", order: "asc" });
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [page] = useState(1);
+  const [pageSize ] = useState(10);
   const [showCreateSheet, setShowCreateSheet] = useState(false);
   const [showUpdateSheet, setShowUpdateSheet] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -78,8 +76,8 @@ const FleetManagement = () => {
       setSort({ key, order: "asc" });
     }
   };
-  const handlePageChange = (page: number) => setPage(page);
-  const handlePageSizeChange = (size: number) => setPageSize(size);
+//   const handlePageChange = (page: number) => setPage(page);
+//   const handlePageSizeChange = (size: number) => setPageSize(size);
   const handleCreateVehicle = () => {
     setSelectedVehicle(null);
     setShowCreateSheet(true);

@@ -259,8 +259,13 @@ const Bookings = () => {
 							</span>
 						</div>
 					</div>
-					<div className='bg-card p-6 rounded-lg shadow'>
-						<h2 className='text-2xl font-bold mb-4'>
+					
+					<div className=' flex flex-col justify-center  bg-card p-6 rounded-lg shadow'>
+					{isLoading ?
+					<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+				:
+				(<>
+				<h2 className='text-2xl font-bold mb-4'>
 							{vehicleSpecs?.manufacturer} {vehicleSpecs?.model}
 						</h2>
 						<div className='grid gap-4'>
@@ -271,6 +276,8 @@ const Bookings = () => {
 								height={200}
 								className='h-48 w-full rounded-t-lg object-cover transition-opacity group-hover:opacity-80'
 							/>
+					
+
 							<div className='p-4'>
 								<div className='flex items-center justify-between'>
 									<div className='text-lg font-medium'>
@@ -297,6 +304,8 @@ const Bookings = () => {
 								</p>
 							</div>
 						</div>
+				</>)}
+						
 					</div>
 					<div className='bg-card p-6 rounded-lg shadow col-span-2'>
 						<h2 className='text-2xl font-bold mb-4'>Your Booking</h2>

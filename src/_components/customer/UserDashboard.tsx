@@ -36,8 +36,11 @@ import logo from "../../assets/images/logo.svg";
 import { RootState } from "@/app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSession } from "@/features/login/sessionSlice";
+import { toast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
+	const nav = useNavigate();
 	const { user } = useSelector((state: RootState) => state.session);
 	if (user === null) {
 		return <Navigate to='/' />;
@@ -45,7 +48,14 @@ const UserDashboard = () => {
 	
 
 	const dispatch = useDispatch();
-	const logout = () => dispatch(logoutSession());
+	const logout = () =>{ 
+		toast({
+			description: "Logout successful"
+		})
+		dispatch(logoutSession());
+		nav("/")
+	
+	}
 	return (
 		<div className='flex min-h-screen w-full flex-col bg-muted/40'>
 			<TooltipProvider>

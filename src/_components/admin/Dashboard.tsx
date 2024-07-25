@@ -35,19 +35,22 @@ import { logoutSession } from "@/features/login/sessionSlice";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/app/store";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 
 const UserDashboard = () => {
+  const nav = useNavigate();
   const { toast } = useToast();
   const {user} = useSelector((state: RootState) => state.session);
   if (!user) return null;
   const dispatch = useDispatch();
 	const logout = () => {
-    
+
     toast({
       description: "Logout successful"
     })
     dispatch(logoutSession());
+    nav("/")
   }
 	return (
 		<div>

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useState, useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { Button } from "@/components/ui/button";
 
 
 const BookingHistory = () => {
@@ -103,6 +104,12 @@ const BookingHistory = () => {
                     <TableCell>{b.booking_status}</TableCell>
                     <TableCell>{b.vehicles.vehicleSpecs.manufacturer} {b.vehicles.vehicleSpecs.model}</TableCell>
                     <TableCell>{b.vehicles.vehicleSpecs.model}</TableCell>
+                    <TableCell>
+                    <Button variant={"outline"} size="sm" className="mr-2">
+                          Checkout
+                      </Button>
+
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

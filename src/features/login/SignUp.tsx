@@ -73,9 +73,6 @@ const SignUp = () => {
           }
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>
-      }
    
      
 
